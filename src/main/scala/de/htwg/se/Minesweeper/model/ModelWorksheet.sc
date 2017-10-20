@@ -3,10 +3,12 @@ case class Cell(x:Int, y:Int)
 val cell1 = Cell(4,5)
 cell1.x
 cell1.y
-
+val cell2 = Cell(5,6);
 case class Field(cells: Array[Cell])
 
-val field1 = Field(Array.ofDim[Cell](1))
+val field1 = Field(Array.ofDim[Cell](2))
 field1.cells(0)=cell1
+field1.cells(1)=cell2
 field1.cells(0).x
 field1.cells(0).y
+field1.cells(1).x
