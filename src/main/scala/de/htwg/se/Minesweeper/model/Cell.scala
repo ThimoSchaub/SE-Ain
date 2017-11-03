@@ -1,6 +1,6 @@
 package de.htwg.se.Minesweeper.model
 
-case class Cell(state: Int) {
+class Cell(state: Int) {
   var isVisible = false;
 
   def getState: Int = state;
