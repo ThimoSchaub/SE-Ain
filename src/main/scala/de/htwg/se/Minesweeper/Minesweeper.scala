@@ -7,11 +7,11 @@ object Minesweeper {
     val student = Player("Your Name")
     println("Hello, " + student.name)
     val feld = new Field(4,4,0)
-    for{
-      row <- 0 until 4
+    for(
+      row <- 0 until 4;
       col <- 0 until 4
-    }{
-      feld.setCell(row,col,new Cell(1))
+    ){
+      feld.setCell(row,col,new Cell(row))
     }
 
 
