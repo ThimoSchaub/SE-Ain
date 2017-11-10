@@ -3,7 +3,8 @@ package de.htwg.se.Minesweeper.model
 import de.htwg.se.Minesweeper.model.Cell
 
 case class Field(x:Int,y:Int,mines:Int) {
-
+  val fieldsizex = x;
+  val fieldsizey = y;
   val field = Array.ofDim[Cell](x,y)
 
   def getCell(x:Int,y:Int):Cell = field(x)(y)
@@ -14,12 +15,12 @@ case class Field(x:Int,y:Int,mines:Int) {
   override def toString: String = {
 
     val lineseparator = ("+---") * y + "+\n"
-    val line = ("|" + ("   ")) * y + "|\n"
+    val line = ("|" + ("toreplace")) * y + "|\n"
     var box = "\n" + (lineseparator + (line)) * x + lineseparator
     for {
-      row <- 0 until x-1
-      col <- 0 until y-1
-    } (box = box.replaceAll("   ", " " + field(row)(col).toString + " "))
+      row <- 0 until fieldsizex
+      col <- 0 until fieldsizey
+    } (box = box.replaceFirst("toreplace", " " + field(row)(col).toString() + " "))
     box
   }
 }

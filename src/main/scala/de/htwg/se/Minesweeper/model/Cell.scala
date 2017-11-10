@@ -1,22 +1,25 @@
 package de.htwg.se.Minesweeper.model
 
-class Cell(state: Int) {
-  var isVisible = false;
+class Cell() {
+  var isVisible = false
+  var state = 0
 
-  def getState: Int = state;
+  def getState(): Int = {
+    return state
+  }
 
-  /*var out = "";
-  if (state == 0) {
-    out = "X";
-  }else if(state == -1){
-
-  }else if(state > 8){
-
-  }else*/
+  def setState(int: Int): Unit ={
+    state = int
+  }
   def setVisibility(visible:Boolean)={
     isVisible = visible
   }
-  override def toString: String = {
+
+  def getVisibility():Boolean={
+    return isVisible
+  }
+
+  override def toString(): String = {
     if (isVisible) {
       return state.toString
     }
