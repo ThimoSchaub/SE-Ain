@@ -2,11 +2,17 @@ package de.htwg.se.Minesweeper.model
 
 import de.htwg.se.Minesweeper.model.Cell
 
-case class Field(x:Int,y:Int,mines:Int) {
+
+case class Field(var x:Int,var y:Int,var mines:Int) {
   val fieldsizex = x;
   val fieldsizey = y;
   val field = Array.ofDim[Cell](x,y)
-
+  for(
+    row <- 0 until fieldsizex;
+    col <- 0 until fieldsizey
+  ){
+    field(row)(col) = new Cell()
+  }
   def getCell(x:Int,y:Int):Cell = field(x)(y)
   def setCell(x:Int,y:Int,cell:Cell): Unit ={
     field(x)(y) = cell
