@@ -8,14 +8,14 @@ object Minesweeper {
     println("Hello, " + student.name)
     val feld = new Field(4,4,0)
     for(
-      row <- 0 until 4;
-      col <- 0 until 4
+      row <- 0 until feld.fieldsizex;
+      col <- 0 until feld.fieldsizey
     ){
-      feld.setCell(row,col,new Cell(row))
+      feld.setCell(row,col,new Cell())
     }
 
 
     feld.getCell(1,1).setVisibility(true)
     println(feld)
-    }
+  }
 }
