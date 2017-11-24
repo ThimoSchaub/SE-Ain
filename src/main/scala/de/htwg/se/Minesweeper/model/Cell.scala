@@ -32,7 +32,9 @@ class Cell() {
 
   def check(): Unit = {
     if (getState() == MINE) {
-      // LOSE!
+
+      print("babababababammmmmm")
+
     }
     else {
       setVisibility(true)

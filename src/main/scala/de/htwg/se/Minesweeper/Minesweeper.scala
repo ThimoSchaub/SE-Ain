@@ -12,6 +12,6 @@ object Minesweeper {
     do {
       input = io.StdIn.readLine()
       tui.processInputLine(input)
-    }while(input != "q")
+    }while(input != "quit")
   }
 }
