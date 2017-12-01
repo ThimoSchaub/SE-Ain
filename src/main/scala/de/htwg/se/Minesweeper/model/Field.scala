@@ -6,18 +6,24 @@ case class Field(var x:Int,var y:Int,var mines:Int) {
   val fieldsizex = x
   val fieldsizey = y
   var mine = mines
-  val field = Array.ofDim[Cell](x,y)
-  for(
+  val field = Array.ofDim[Cell](x, y)
+  for (
     row <- 0 until fieldsizex;
     col <- 0 until fieldsizey
-  ){
+  ) {
     field(row)(col) = new Cell()
   }
-  def getCell(x:Int,y:Int):Cell = {
-   if(x<0 || x>=fieldsizex || y<0 || y>= fieldsizey){return new Cell()}
+  set_Mines_state()
+  allVisible
+
+  def getCell(x: Int, y: Int): Cell = {
+    if (x < 0 || x >= fieldsizex || y < 0 || y >= fieldsizey) {
+      return new Cell()
+    }
     field(x)(y)
   }
-  def setCell(x:Int,y:Int,cell:Cell): Unit ={
+
+  def setCell(x: Int, y: Int, cell: Cell): Unit = {
     field(x)(y) = cell
   }
 
@@ -49,30 +55,34 @@ case class Field(var x:Int,var y:Int,var mines:Int) {
     box
   }
 
-  def set_Mines_state(): Unit ={
+  def set_Mines_state(): Unit = {
     var rand = scala.util.Random
-    for (
-      countmines <- 0 until mine
+    var mines_set = 0;
+    while (
+      mines_set < mine
     ) {
-      getCell(rand.nextInt(fieldsizex), rand.nextInt(fieldsizey)).setState(9)
+      var cell = getCell(rand.nextInt(fieldsizex), rand.nextInt(fieldsizey))
+      if(cell.getState()!=9){
+        cell.setState(9)
+        mines_set += 1
+      }
     }
     for (
       row <- 0 until fieldsizex;
       col <- 0 until fieldsizey
     ) {
-      if (getCell(row,col).getState()==9){}
-      else{
+      if (getCell(row, col).getState() != 9) {
         var count = 0;
-        if (getCell(row+1,col).getState()==9){count +=1}
-        if (getCell(row-1,col).getState()==9){count +=1}
-        if (getCell(row,col+1).getState()==9){count +=1}
-        if (getCell(row,col-1).getState()==9){count +=1}
-        if (getCell(row+1,col+1).getState()==9){count +=1}
-        if (getCell(row+1,col-1).getState()==9){count +=1}
-        if (getCell(row-1,col+1).getState()==9){count +=1}
-        if (getCell(row-1,col-1).getState()==9){count +=1}
-        getCell(row,col).setState(count)
+        for (
+          x <- row - 1 until row + 2;
+          y <- col - 1 until col + 2
+        ) {
+          if (getCell(x, y).getState() == 9) {
+            count += 1
+          }
+        }
+        getCell(row, col).setState(count)
       }
     }
-    }
+  }
 }
