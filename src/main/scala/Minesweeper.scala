@@ -1,7 +1,7 @@
 package de.htwg.se.Minesweeper
-import de.htwg.se.Minesweeper.controller.Controller
 import de.htwg.se.Minesweeper.aview.Tui
-import de.htwg.se.Minesweeper.model.{Cell, Field, Player}
+import de.htwg.se.Minesweeper.controller.Controller
+import de.htwg.se.Minesweeper.model.Field
 
 object Minesweeper {
   val controller = new Controller(new Field(0,0,0))
