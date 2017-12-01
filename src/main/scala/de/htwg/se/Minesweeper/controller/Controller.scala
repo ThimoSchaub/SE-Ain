@@ -6,7 +6,6 @@ import de.htwg.se.Minesweeper.util.Observable
 class Controller(var field:Field) extends Observable{
   def createRandomField(xSize: Int, ySize: Int, mines: Int):Unit = {
     field = new Field(xSize, ySize, mines)
-    field.set_Mines_state()
     notifyObservers
   }
 
