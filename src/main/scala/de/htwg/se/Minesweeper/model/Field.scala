@@ -14,7 +14,6 @@ case class Field(var x:Int,var y:Int,var mines:Int) {
     field(row)(col) = new Cell()
   }
   set_Mines_state()
-  allVisible
 
   def getCell(x: Int, y: Int): Cell = {
     if (x < 0 || x >= fieldsizex || y < 0 || y >= fieldsizey) {
