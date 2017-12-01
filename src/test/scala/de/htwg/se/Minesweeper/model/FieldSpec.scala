@@ -28,7 +28,32 @@ class FieldSpec extends WordSpec with Matchers {
     "have a nice String representation" in {
       field.toString should be("\n+---+\n|   |\n+---+\n")
     }
+    "have the Cell with state Flag" in {
+      field.performAction(0,0,1)
+      field.getCell(0,0).getFlag() should be(true)
+    }
+    "have the Cell with state" in {
+      field.performAction(0,0,2)
+      field.getCell(0,0).getVisibility() should be(true)
+    }
+  "A Field" when { "set_Mines_state" should {
+    val field = new Field(3,3,9)
+    field.allVisible
+    "have a String reprsentaion" in {
+      field.toString should be("\n+---+---+---+\n| 9 | 9 | 9 |\n+---+---+---+\n| 9 | 9 | 9 " +
+        "|\n+---+---+---+\n| 9 | 9 | 9 |\n+---+---+---+\n")
+    }
+  }
+    "A Field" when { "set_Mines_state" should {
+      val field = new Field(1,2,1)
+      field.allVisible
+      "have a Cell with state 1" in {
+        field.getCell(0, 0).getState() == 1 || field.getCell(0, 1).getState() == 1 should be(true)
+      }
+      }
+    }
 
+  }
   }}
 
 
