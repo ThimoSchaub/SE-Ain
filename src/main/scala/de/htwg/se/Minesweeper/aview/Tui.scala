@@ -7,7 +7,7 @@ class Tui(controller: Controller) extends Observer {
 
   controller.add(this)
   val sizex, sizey = 10
-  val mines = 20
+  val mines = 100
 
   def processInputLine(input: String): Unit = {
     input match {
