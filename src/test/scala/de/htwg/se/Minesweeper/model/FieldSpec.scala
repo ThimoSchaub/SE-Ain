@@ -22,7 +22,7 @@ class FieldSpec extends WordSpec with Matchers {
     "have a setCell" in {
       val cell1 = new Cell()
       cell1.setState(2)
-      field.setCell(0, 0, cell1)
+      field.setCell(0, 0, 2)
       field.getCell(0, 0).equals(cell1) should be(true)
     }
     "have a nice String representation" in {
