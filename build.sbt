@@ -1,6 +1,6 @@
 name          := "Minesweeper"
 organization  := "de.htwg.se"
-version       := "0.0.1"
+version       := "0.0.2"
 scalaVersion  := "2.11.8"
 scalacOptions := Seq("-unchecked", "-feature", "-deprecation", "-encoding", "utf8")
 
@@ -16,3 +16,5 @@ libraryDependencies ++= {
 }
 
 libraryDependencies += "junit" % "junit" % "4.8" % "test"
+
+libraryDependencies += "org.scala-lang.modules" % "scala-swing_2.12" % "2.0.1"
