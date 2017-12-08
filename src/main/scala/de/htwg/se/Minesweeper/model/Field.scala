@@ -22,15 +22,17 @@ case class Field(var x:Int,var y:Int,var mines:Int) {
     field(x)(y)
   }
 
-  def setCell(x: Int, y: Int, cell: Cell): Unit = {
-    field(x)(y) = cell
+  def setCell(x: Int, y: Int, state: Int): Unit = {
+      field(x)(y).setState(state)
   }
 
-  def performAction(row: Int, col: Int, action: Int) {
+
+  def performAction(row: Int, col: Int, action: Int):Field= {
     action match {
       case 1 => field(row)(col).toggleFlag()
       case 2 => field(row)(col).check()
     }
+    return this
   }
 
   def allVisible: Unit = {
