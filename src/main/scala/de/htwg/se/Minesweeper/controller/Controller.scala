@@ -4,11 +4,11 @@ import de.htwg.se.Minesweeper.controller.GameStatus._
 import de.htwg.se.Minesweeper.model.{Field}
 import de.htwg.se.Minesweeper.util.{Observable, UndoManager}
 
-class Controller(var field:Field) extends Observable{
+class Controller(var field:Field) extends Observable {
   private val undoManager = new UndoManager
   var gameStatus: GameStatus = IDLE
-  def createRandomField(xSize: Int, ySize: Int, mines: Int):Unit = {
-    field = new Field(xSize, ySize, mines)
+  def createRandomField():Unit = {
+    field = new Field(10, 10, 10)
     notifyObservers
   }
 
@@ -25,11 +25,13 @@ class Controller(var field:Field) extends Observable{
     notifyObservers
   }
 
+  def isSet(row: Int, col:Int):Boolean = field.getCell(row, col).getVisibility()
+
   def solve: Unit = {
     undoManager.doStep(new SolveCommand(this))
     notifyObservers
   }
-
+  def statusText:String = GameStatus.message(gameStatus)
   def undo: Unit = {
     undoManager.undoStep
     notifyObservers
@@ -39,4 +41,8 @@ class Controller(var field:Field) extends Observable{
     undoManager.redoStep
     notifyObservers
   }
+  def fieldSize:Int = field.fieldsizex*field.fieldsizey
+  def blockSize:Int=Math.sqrt(fieldSize).toInt
+
+  def cell(row: Int, col: Int) = field.getCell(row, col)
 }

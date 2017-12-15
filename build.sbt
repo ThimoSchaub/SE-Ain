@@ -1,17 +1,15 @@
 name          := "Minesweeper"
 organization  := "de.htwg.se"
 version       := "0.0.2"
-scalaVersion  := "2.11.8"
+scalaVersion  := "2.12.4"
 scalacOptions := Seq("-unchecked", "-feature", "-deprecation", "-encoding", "utf8")
 
 resolvers += Resolver.jcenterRepo
 
 libraryDependencies ++= {
-  val scalaTestV       = "3.0.1"
-  val scalaMockV       = "3.2.2"
+  val scalaTestV       = "3.0.4"
   Seq(
-    "org.scalatest" %% "scalatest"                   % scalaTestV       % "test",
-    "org.scalamock" %% "scalamock-scalatest-support" % scalaMockV       % "test"
+    "org.scalatest" %% "scalatest"                   % scalaTestV       % "test"
   )
 }
 
