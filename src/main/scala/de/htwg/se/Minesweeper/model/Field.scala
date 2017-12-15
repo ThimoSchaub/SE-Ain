@@ -29,8 +29,9 @@ case class Field(var x:Int,var y:Int,var mines:Int) {
 
   def performAction(row: Int, col: Int, action: Int):Field= {
     action match {
-      case 1 => field(row)(col).toggleFlag()
-      case 2 => field(row)(col).check()
+      case 3 => field(row)(col).toggleFlag()
+      case 1 => field(row)(col).check()
+      case _ =>
     }
     return this
   }
