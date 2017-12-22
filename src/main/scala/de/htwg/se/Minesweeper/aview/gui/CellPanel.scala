@@ -29,6 +29,7 @@ class CellPanel(row: Int, column: Int, controller: Controller) extends FlowPanel
     reactions += {
       case evt @ MouseClicked(src, pt, mod, clicks, pops) => {
         controller.set(row,column,evt.peer.getButton())
+        label.text = cellText(row, column)
         repaint
       }
       case _ =>{
@@ -40,7 +41,6 @@ class CellPanel(row: Int, column: Int, controller: Controller) extends FlowPanel
 
 
   def redraw = {
-    contents.clear()
     label.text = cellText(row, column)
     setBackground(cell)
     contents += cell
