@@ -57,7 +57,8 @@ class SwingGUI (controller: Controller) extends Frame {
     }
     contents += new Menu("Solve") {
       mnemonic = Key.S
-      contents += new MenuItem(Action("Solve") { controller.solve })
+      contents += new MenuItem(Action("Solve") { controller.solve
+      redraw})
     }
 //
 //    contents += new Menu("Options") {
