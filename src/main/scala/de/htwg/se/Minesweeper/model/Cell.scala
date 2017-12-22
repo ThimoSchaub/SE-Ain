@@ -45,7 +45,7 @@ class Cell() {
       return state.toString
     }
     else if (flag) {
-      return "F"
+      return emoji":triangular_flag_on_post:"
     }
     else {
       return " "
