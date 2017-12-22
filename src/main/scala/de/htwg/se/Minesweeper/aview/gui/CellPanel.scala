@@ -17,7 +17,7 @@ class CellPanel(row: Int, column: Int, controller: Controller) extends FlowPanel
   val label =
     new Label {
       text = cellText(row, column)
-      font = new Font("Verdana", 1, 36)
+      font = new Font("TRUETYPE_FONT", 1, 36)
     }
 
   val cell = new BoxPanel(Orientation.Horizontal) {
