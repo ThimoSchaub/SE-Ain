@@ -13,7 +13,7 @@ object Minesweeper {
   def main(args: Array[String]): Unit = {
     var input = ""
     do {
-      input = io.StdIn.readLine()
+      input = scala.io.StdIn.readLine()
       tui.processInputLine(input)
     }while(input != "quit")
   }
