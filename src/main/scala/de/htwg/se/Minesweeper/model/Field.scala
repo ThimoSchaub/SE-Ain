@@ -31,6 +31,7 @@ case class Field(var x:Int,var y:Int,var mines:Int) {
     action match {
       case 3 => field(row)(col).toggleFlag()
       case 1 => field(row)(col).check()
+      case 0 => field(row)(col).undocheck()
       case _ =>
     }
     return this
