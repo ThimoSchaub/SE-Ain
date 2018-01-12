@@ -53,7 +53,14 @@ case class Field(var x:Int,var y:Int,var mines:Int) {
     for {
       row <- 0 until fieldsizex
       col <- 0 until fieldsizey
-    } (box = box.replaceFirst("toreplace", " " + field(row)(col).toString() + " "))
+    } {
+      if (field(row)(col).isVisible && field(row)(col).getState() == 9 || field(row)(col).flag) {
+        (box = box.replaceFirst("toreplace", field(row)(col).toString() + " "))
+      }
+      else {
+        (box = box.replaceFirst("toreplace", " " + field(row)(col).toString() + " "))
+      }
+    }
     box
   }
 
