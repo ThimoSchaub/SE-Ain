@@ -37,6 +37,10 @@ class Cell() {
     }
   }
 
+  def undocheck(): Unit = {
+    setVisibility(!getVisibility())
+  }
+
   override def toString(): String = {
     if (isVisible) {
       if(getState()==9){
