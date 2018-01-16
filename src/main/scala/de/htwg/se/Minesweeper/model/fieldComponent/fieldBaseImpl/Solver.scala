@@ -1,5 +1,4 @@
-package de.htwg.se.Minesweeper.model
-
+package de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl
 
 
 class Solver(field:Field) {

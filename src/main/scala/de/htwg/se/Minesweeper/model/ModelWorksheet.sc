@@ -1,5 +1,4 @@
-import de.htwg.se.Minesweeper.model.Field
-import de.htwg.se.Minesweeper.model.Cell
+import de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl.{Cell, Field}
 val cell = new Cell();
 
 

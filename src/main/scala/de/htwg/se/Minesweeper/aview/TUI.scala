@@ -1,12 +1,14 @@
 package de.htwg.se.Minesweeper.aview
 
-import de.htwg.se.Minesweeper.controller.Controller
+import de.htwg.se.Minesweeper.controller.{Cellchange, Controller}
 import de.htwg.se.Minesweeper.util.Observer
 
-class TUI(controller: Controller) extends Observer {
+import scala.swing.Reactor
 
-  controller.add(this)
+class TUI(controller: Controller)extends Reactor{
 
+
+  listenTo(controller)
   def processInputLine(input: String): Unit = {
 
     input match {
@@ -21,6 +23,7 @@ class TUI(controller: Controller) extends Observer {
       }
     }
   }
-
-  override def update: Unit = println(controller.fieldToString)
+  reactions+={
+    case cellevent:Cellchange=>println(controller.fieldToString)
+  }
 }
