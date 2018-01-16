@@ -38,11 +38,10 @@ class FieldSpec extends WordSpec with Matchers {
       field.getCell(0,0).getVisibility() should be(true)
     }*/
   "A Field" when { "set_Mines_state" should {
-    val field = new Field(3,3,9)
+    val field = new Field(1,1,1)
     field.allVisible
     "have a String reprsentaion" in {
-      field.toString should be("\n+---+---+---+\n| "+emoji":bomb:"+" | "+emoji":bomb:"+" | "+emoji":bomb:"+" |\n+---+---+---+\n| "+emoji":bomb:"+" | "+emoji":bomb:"+" | "+emoji":bomb:"+" " +
-        "|\n+---+---+---+\n| "+emoji":bomb:"+" | "+ emoji":bomb:"+" | "+ emoji":bomb:"+" |\n+---+---+---+\n")
+      field.toString should be("\n+---+\n|"+emoji":bomb:"+" |\n+---+\n")
     }
   }
     "A Field" when { "set_Mines_state" should {
