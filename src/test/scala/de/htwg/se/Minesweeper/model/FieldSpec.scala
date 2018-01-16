@@ -29,7 +29,7 @@ class FieldSpec extends WordSpec with Matchers {
       field.toString should be("\n+---+\n|   |\n+---+\n")
     }
     "have the Cell with state Flag" in {
-      field.performAction(0,0,1)
+      field.performAction(0,0,3)
       field.getCell(0,0).getFlag() should be(true)
     }
     "have the Cell with state" in {
@@ -40,8 +40,8 @@ class FieldSpec extends WordSpec with Matchers {
     val field = new Field(3,3,9)
     field.allVisible
     "have a String reprsentaion" in {
-      field.toString should be("\n+---+---+---+\n| 9 | 9 | 9 |\n+---+---+---+\n| 9 | 9 | 9 " +
-        "|\n+---+---+---+\n| 9 | 9 | 9 |\n+---+---+---+\n")
+      field.toString should be("\n+---+---+---+\n| emoji\":bomb:\" | emoji\":bomb:\" | emoji\":bomb:\" |\n+---+---+---+\n| emoji\":bomb:\" | emoji\":bomb:\" | emoji\":bomb:\" " +
+        "|\n+---+---+---+\n| emoji\":bomb:\" | emoji\":bomb:\" | emoji\":bomb:\" |\n+---+---+---+\n")
     }
   }
     "A Field" when { "set_Mines_state" should {
