@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/ThimoSchaub/SE-Ain.svg?branch=master)](https://travis-
 ci.org/ThimoSchaub/SE-Ain)
+
 =========================
 
 This is a seed project to create a basic scala project as used in the
