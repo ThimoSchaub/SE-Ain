@@ -21,7 +21,7 @@ class Controller(var field:Field) extends Observable {
 
   def fieldToString: String = field.toString
 
-  def set(row: Int, col: Int, action: Int): Unit = { 
+  def set(row: Int, col: Int, action: Int): Unit = {  
     undoManager.doStep(new SetCommand(row, col, action, this))
     notifyObservers
   }
