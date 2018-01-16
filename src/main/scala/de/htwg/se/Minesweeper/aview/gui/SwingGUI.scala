@@ -12,7 +12,7 @@ class CellClicked(val row: Int, val column: Int) extends Event
 
 class SwingGUI (controller: Controller) extends Frame {
 
-  listenTo()
+  listenTo(controller)
 
   title = "Minesweeper"
   var cells = Array.ofDim[CellPanel](controller.field.fieldsizey, controller.field.fieldsizex)
@@ -34,7 +34,9 @@ class SwingGUI (controller: Controller) extends Frame {
     }
   }
   val statusline = new TextField(controller.statusText, 20)
-
+  reactions +={
+    case cellevent:Cellchange=>redraw
+  }
   contents = new BorderPanel {
     add(gridPanel, BorderPanel.Position.Center)
     add(statusline, BorderPanel.Position.South)

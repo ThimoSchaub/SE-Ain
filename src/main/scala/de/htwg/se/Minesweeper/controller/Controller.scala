@@ -1,29 +1,30 @@
 package de.htwg.se.Minesweeper.controller
 
 import de.htwg.se.Minesweeper.controller.GameStatus.{GameStatus, _}
-import de.htwg.se.Minesweeper.model.Field
+import de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl.Field
 import de.htwg.se.Minesweeper.util.{Observable, UndoManager}
 
-class Controller(var field:Field) extends Observable {
+import scala.swing.Publisher
+import scala.swing.event.Event
+
+class Controller(var field:Field) extends Publisher {
   private val undoManager = new UndoManager
   var gameStatus: GameStatus = IDLE
   def createRandomField():Unit = {
-    field = new Field(10, 10, 10)
+    field = new Field(field.fieldsizex, field.fieldsizey, field.mine)
     gameStatus = NEW
-    notifyObservers
+    publish(new Cellchange)
   }
 
-  def performAction(row: Int, col: Int, action: Int):Unit = {
-    undoManager.doStep(new SetCommand(row, col, action, this))
-    field.performAction(row, col, action)
-    notifyObservers
-  }
 
   def fieldToString: String = field.toString
 
   def set(row: Int, col: Int, action: Int): Unit = {
     undoManager.doStep(new SetCommand(row, col, action, this))
-    notifyObservers
+    if (field.checksolved){
+      gameStatus = SOLVED
+    }
+    publish(new Cellchange)
   }
 
   def isSet(row: Int, col:Int):Boolean = field.getCell(row, col).getVisibility()
@@ -31,22 +32,23 @@ class Controller(var field:Field) extends Observable {
   def solve: Unit = {
     undoManager.doStep(new SolveCommand(this))
     gameStatus = SOLVED
-    notifyObservers
+    publish(new Cellchange)
   }
   def statusText:String = GameStatus.message(gameStatus)
   def undo: Unit = {
     undoManager.undoStep
     gameStatus = UNDO
-    notifyObservers
+    publish(new Cellchange)
   }
 
   def redo: Unit = {
     undoManager.redoStep
     gameStatus = REDO
-    notifyObservers
+    publish(new Cellchange)
   }
   def fieldSize:Int = field.fieldsizex*field.fieldsizey
   def blockSize:Int=Math.sqrt(fieldSize).toInt
 
   def cell(row: Int, col: Int) = field.getCell(row, col)
 }
+class Cellchange extends Event

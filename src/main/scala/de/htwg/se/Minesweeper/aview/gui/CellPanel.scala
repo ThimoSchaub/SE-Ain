@@ -31,6 +31,7 @@ class CellPanel(row: Int, column: Int, controller: Controller) extends FlowPanel
         controller.set(row,column,evt.peer.getButton())
         label.text = cellText(row, column)
         repaint
+
       }
       case _ =>{
         label.text = cellText(row, column)

@@ -1,8 +1,8 @@
 package de.htwg.se.Minesweeper.controller
 
 
-import de.htwg.se.Minesweeper.controller.GameStatus.{SOLVED}
-import de.htwg.se.Minesweeper.model.{Field, Solver}
+import de.htwg.se.Minesweeper.controller.GameStatus.SOLVED
+import de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl.{Field, Solver}
 import de.htwg.se.Minesweeper.util.Command
 
 

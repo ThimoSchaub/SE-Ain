@@ -1,9 +1,10 @@
-package de.htwg.se.Minesweeper.model
+package de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl
+
 import io.github.todokr.Emojipolation._
 class Cell() {
   val MINE = 9
   var isVisible = false
-  var state = 0
+  var state = -1
   var flag = false
 
   def getState(): Int = {
@@ -30,11 +31,12 @@ class Cell() {
     flag = !flag
   }
 
-  def check(): Unit = {
+  def check(): Boolean = {
     setVisibility(true)
-    if (getState() == MINE && isVisible) {
-      print("babababababammmmmm")
+    if (getState() == MINE && isVisible){
+      return true
     }
+    return false
   }
 
   def undocheck(): Unit = {
@@ -46,6 +48,7 @@ class Cell() {
       if(getState()==9){
         return emoji":bomb:"
       }
+
       return state.toString
     }
     else if (flag) {

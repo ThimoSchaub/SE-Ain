@@ -1,5 +1,6 @@
 package de.htwg.se.Minesweeper.model
 
+import de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl.Cell
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, WordSpec}
