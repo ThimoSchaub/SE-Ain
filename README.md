@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/ThimoSchaub/SE-Ain.svg?branch=master)](https://travis-
-ci.org/ThimoSchaub/SE-Ain)
+[![Build Status](https://travis-ci.org/ThimoSchaub/SE-Ain.svg?branch=master)](https://travis-ci.org/ThimoSchaub/SE-Ain)
 
 =========================
 
