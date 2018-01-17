@@ -1,7 +1,6 @@
 package de.htwg.se.Minesweeper.aview
 
 import de.htwg.se.Minesweeper.controller.{Cellchange, Controller}
-import de.htwg.se.Minesweeper.util.Observer
 
 import scala.swing.Reactor
 
