@@ -2,23 +2,17 @@ package de.htwg.se.Minesweeper.controller
 
 import de.htwg.se.Minesweeper.controller.GameStatus.{GameStatus, _}
 import de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl.Field
-import de.htwg.se.Minesweeper.util.{Observable, UndoManager}
+import de.htwg.se.Minesweeper.util.{UndoManager}
 
 import scala.swing.Publisher
 import scala.swing.event.Event
 
-class Controller(var field:Field) extends Publisher {
+class Controller(f:Field) extends Publisher {
+  var field: Field = f
   private val undoManager = new UndoManager
   var gameStatus: GameStatus = IDLE
-  def createRandomField():Unit = {
-    field = new Field(field.fieldsizex, field.fieldsizey, field.mine)
-    field.visiblechells = 0
-    gameStatus = NEW
-    publish(new Cellchange)
-  }
 
-  def createNewRandomField(f:Field):Unit = {
-    field = f
+  def createRandomField():Unit = {
     field = new Field(field.fieldsizex, field.fieldsizey, field.mine)
     field.visiblechells = 0
     gameStatus = NEW
