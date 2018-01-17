@@ -17,6 +17,13 @@ class Controller(var field:Field) extends Publisher {
     publish(new Cellchange)
   }
 
+  def createNewRandomField(f:Field):Unit = {
+    field = f
+    field = new Field(field.fieldsizex, field.fieldsizey, field.mine)
+    field.visiblechells = 0
+    gameStatus = NEW
+    publish(new Cellchange)
+  }
 
   def fieldToString: String = field.toString
 
@@ -36,6 +43,9 @@ class Controller(var field:Field) extends Publisher {
   def isSet(row: Int, col:Int):Boolean = field.getCell(row, col).getVisibility()
 
   def solve: Unit = {
+    if(field.getCell(0,0).getState() == -1) {
+      return
+    }
     undoManager.doStep(new SolveCommand(this))
     gameStatus = SOLVED
     publish(new Cellchange)

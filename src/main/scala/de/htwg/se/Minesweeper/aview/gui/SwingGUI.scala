@@ -1,10 +1,12 @@
 package de.htwg.se.Minesweeper.aview.gui
 
 import de.htwg.se.Minesweeper.aview.gui.CellPanel
+
 import scala.swing._
 import scala.swing.Swing.LineBorder
 import scala.swing.event._
 import de.htwg.se.Minesweeper.controller._
+import de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl.Field
 
 import scala.io.Source._
 
@@ -45,7 +47,7 @@ class SwingGUI (controller: Controller) extends Frame {
   menuBar = new MenuBar {
     contents += new Menu("File") {
       mnemonic = Key.F
-      contents += new MenuItem(Action("New") { controller.createRandomField()
+      contents += new MenuItem(Action("New normal") { controller.createRandomField()
       redraw
       })
       contents += new MenuItem(Action("Quit") { System.exit(0) })
