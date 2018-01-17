@@ -1,9 +1,12 @@
 package de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl
 
 case class Field(var x:Int,var y:Int,var mines:Int) {
+  var checkmine: Boolean = false
+
   val fieldsizex = x
   val fieldsizey = y
   var mine = mines
+  var visiblechells = 0
   val field = Array.ofDim[Cell](x, y)
   for (
     row <- 0 until fieldsizex;
@@ -11,7 +14,7 @@ case class Field(var x:Int,var y:Int,var mines:Int) {
   ) {
     field(row)(col) = new Cell()
   }
-  set_Mines_state()
+
 
   def getFieldsizex : Int = {
     return fieldsizex
@@ -40,9 +43,14 @@ case class Field(var x:Int,var y:Int,var mines:Int) {
     action match {
       case 3 => field(row)(col).toggleFlag()
       case 1 => {
-
-        if (getCell(row,col).getState()==0&&(!getCell(row,col).isVisible)){
+        if (visiblechells==0){
+          set_Mines_state(row,col)
           getCell(row,col).check()
+          visiblechells+=1
+          performAction(row,col,1)
+        }else if (getCell(row,col).getState()==0&&(!getCell(row,col).isVisible)){
+          getCell(row,col).check()
+          visiblechells +=1
           for(
             x <- row - 1 until row + 2;
             y <- col - 1 until col + 2
@@ -52,10 +60,17 @@ case class Field(var x:Int,var y:Int,var mines:Int) {
           }
         }else{
           field(row)(col).check()
+          if (field(row)(col).check()){
+            allVisible
+            checkmine=true
+          }
         }
 
       }
-      case 0 => field(row)(col).undocheck()
+      case 0 => {
+        field(row)(col).undocheck()
+        visiblechells-=1
+      }
       case _ =>
     }
     return this
@@ -105,14 +120,16 @@ case class Field(var x:Int,var y:Int,var mines:Int) {
     box
   }
 
-  def set_Mines_state(): Unit = {
+  def set_Mines_state(row:Int,col:Int): Unit = {
     var rand = scala.util.Random
     var mines_set = 0;
     while (
       mines_set < mine
     ) {
-      var cell = getCell(rand.nextInt(fieldsizex), rand.nextInt(fieldsizey))
-      if(cell.getState()!=9){
+      val x =rand.nextInt(fieldsizex)
+      val y = rand.nextInt(fieldsizey)
+      var cell = getCell(x,y)
+      if(cell.getState()!=9&&(!(x==row&&y==col))){
         cell.setState(9)
         mines_set += 1
       }

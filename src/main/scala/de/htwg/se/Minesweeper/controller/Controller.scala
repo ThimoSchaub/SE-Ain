@@ -12,6 +12,7 @@ class Controller(var field:Field) extends Publisher {
   var gameStatus: GameStatus = IDLE
   def createRandomField():Unit = {
     field = new Field(field.fieldsizex, field.fieldsizey, field.mine)
+    field.visiblechells = 0
     gameStatus = NEW
     publish(new Cellchange)
   }
@@ -20,11 +21,16 @@ class Controller(var field:Field) extends Publisher {
   def fieldToString: String = field.toString
 
   def set(row: Int, col: Int, action: Int): Unit = {
-    undoManager.doStep(new SetCommand(row, col, action, this))
-    if (field.checksolved){
-      gameStatus = SOLVED
+    if(gameStatus!=LOST&&gameStatus!=SOLVED){
+      undoManager.doStep(new SetCommand(row, col, action, this))
+      if (field.checksolved){
+        gameStatus = SOLVED
+      }
+      if (field.checkmine){
+        gameStatus = LOST
+      }
+      publish(new Cellchange)
     }
-    publish(new Cellchange)
   }
 
   def isSet(row: Int, col:Int):Boolean = field.getCell(row, col).getVisibility()
