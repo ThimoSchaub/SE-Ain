@@ -6,7 +6,7 @@ import de.htwg.se.Minesweeper.controller.Controller
 import de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl.Field
 
 object Minesweeper {
-  val controller = new Controller(new Field(10,10,10))
+  val controller = new Controller(new Field(10,10,80))
   val tui = new TUI(controller)
   val gui = new SwingGUI(controller)
   def main(args: Array[String]): Unit = {
