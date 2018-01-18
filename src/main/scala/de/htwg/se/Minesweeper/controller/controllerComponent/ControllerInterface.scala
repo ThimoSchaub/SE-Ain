@@ -23,3 +23,4 @@ trait ControllerInterface extends Publisher{
 import scala.swing.event.Event
 
 class CellChange extends Event
+case class FieldSizeChange(newSize:Int) extends Event

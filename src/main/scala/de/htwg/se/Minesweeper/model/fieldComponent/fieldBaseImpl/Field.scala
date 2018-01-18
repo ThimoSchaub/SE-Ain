@@ -1,8 +1,10 @@
 package de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl
 
-case class Field(var x:Int,var y:Int,var mines:Int) {
-  var checkmine: Boolean = false
+import de.htwg.se.Minesweeper.model.fieldComponent.FieldInterface
 
+case class Field(var x: Int, var y: Int, var mines: Int) extends FieldInterface {
+  var checkmine: Boolean = false
+  var flags = 0
   val fieldsizex = x
   val fieldsizey = y
   var mine = mines
@@ -16,7 +18,7 @@ case class Field(var x:Int,var y:Int,var mines:Int) {
   }
 
 
-  def getFieldsizex : Int = {
+  def getFieldsizex: Int = {
     return fieldsizex
   }
 
@@ -36,58 +38,66 @@ case class Field(var x:Int,var y:Int,var mines:Int) {
   }
 
   def setCell(x: Int, y: Int, state: Int): Unit = {
-      field(x)(y).setState(state)
+    field(x)(y).setState(state)
   }
 
-  def performAction(row: Int, col: Int, action: Int):Field= {
+  def performAction(row: Int, col: Int, action: Int): Field = {
     action match {
-      case 3 => field(row)(col).toggleFlag()
+      case 3 => {
+        field(row)(col).toggleFlag()
+        if (field(row)(col).getFlag()) {
+          flags += 1
+        } else {
+          flags -= 1
+        }
+      }
       case 1 => {
-        if (visiblechells==0){
-          set_Mines_state(row,col)
-          getCell(row,col).check()
-          visiblechells+=1
-          performAction(row,col,1)
-        }else if (getCell(row,col).getState()==0&&(!getCell(row,col).isVisible)){
-          getCell(row,col).check()
-          visiblechells +=1
-          for(
+        if (visiblechells == 0) {
+          set_Mines_state(row, col)
+          getCell(row, col).check()
+          visiblechells += 1
+          performAction(row, col, 1)
+        } else if (getCell(row, col).getState() == 0 && (!getCell(row, col).isVisible)) {
+          getCell(row, col).check()
+          visiblechells += 1
+          for (
             x <- row - 1 until row + 2;
             y <- col - 1 until col + 2
-          ){
-            if(0<=x&&0<=y&&y<=fieldsizey-1&&x<=fieldsizex-1){
-            performAction(x,y,1)}
+          ) {
+            if (0 <= x && 0 <= y && y <= fieldsizey - 1 && x <= fieldsizex - 1) {
+              performAction(x, y, 1)
+            }
           }
-        }else{
+        } else {
           field(row)(col).check()
-          if (field(row)(col).check()){
+          if (field(row)(col).check()) {
             allVisible
-            checkmine=true
+            checkmine = true
           }
         }
 
       }
       case 0 => {
         field(row)(col).undocheck()
-        visiblechells-=1
+        visiblechells -= 1
       }
       case _ =>
     }
     return this
   }
 
-  def checksolved: Boolean={
+  def checksolved: Boolean = {
     for (
       row <- 0 until fieldsizex;
       col <- 0 until fieldsizey
     ) {
-      if ((!field(row)(col).getVisibility())//zelle nicht sichtbar
-        &&field(row)(col).getState()!=9)//keine mine
+      if ((!field(row)(col).getVisibility()) //zelle nicht sichtbar
+        && field(row)(col).getState() != 9) //keine mine
       {
         return false
       }
     }
-      return true
+    return true
   }
 
   def allVisible: Unit = {
@@ -100,6 +110,8 @@ case class Field(var x:Int,var y:Int,var mines:Int) {
       field(row)(col).setVisibility(true)
     }
   }
+
+  def getRestmine: Int = mine - flags
 
   override def toString: String = {
 
@@ -117,19 +129,19 @@ case class Field(var x:Int,var y:Int,var mines:Int) {
         (box = box.replaceFirst("toreplace", " " + field(row)(col).toString() + " "))
       }
     }
-    box
+    box + "Restliche Minen: " + getRestmine
   }
 
-  def set_Mines_state(row:Int,col:Int): Unit = {
+  def set_Mines_state(row: Int, col: Int): Unit = {
     var rand = scala.util.Random
     var mines_set = 0;
     while (
       mines_set < mine
     ) {
-      val x =rand.nextInt(fieldsizex)
+      val x = rand.nextInt(fieldsizex)
       val y = rand.nextInt(fieldsizey)
-      var cell = getCell(x,y)
-      if(cell.getState()!=9&&(!(x==row&&y==col))){
+      var cell = getCell(x, y)
+      if (cell.getState() != 9 && (!(x == row && y == col))) {
         cell.setState(9)
         mines_set += 1
       }

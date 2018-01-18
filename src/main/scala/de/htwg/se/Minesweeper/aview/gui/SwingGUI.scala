@@ -4,7 +4,7 @@ import java.awt.BorderLayout
 
 import scala.swing._
 import scala.swing.event._
-import de.htwg.se.Minesweeper.controller.controllerComponent.{CellChange, ControllerInterface}
+import de.htwg.se.Minesweeper.controller.controllerComponent.{CellChange, ControllerInterface, FieldSizeChange}
 class CellClicked(val row: Int, val column: Int) extends Event
 
 class SwingGUI (controller: ControllerInterface) extends Frame {
@@ -17,13 +17,14 @@ class SwingGUI (controller: ControllerInterface) extends Frame {
 
   def gridPanel = new GridPanel(controller.blockSize, controller.blockSize) {
         background = java.awt.Color.BLACK
-        preferredSize= new Dimension(510,510)
+        preferredSize= new Dimension(51*controller.blockSize,51*controller.blockSize)
+
         for {
-          innerRow <- 0 until controller.blockSize
-          innerColumn <- 0 until controller.blockSize
+          row <- 0 until controller.blockSize
+          column <- 0 until controller.blockSize
         } {
-          val x = innerRow
-          val y = innerColumn
+          val x = row
+          val y = column
           val cellPanel = new CellPanel(x, y, controller)
           cells(x)(y) = cellPanel
           contents += cellPanel
@@ -32,7 +33,8 @@ class SwingGUI (controller: ControllerInterface) extends Frame {
   }
   val statusline = new TextField(controller.statusText, 20)
   reactions +={
-    case cellevent:CellChange=>redraw
+    case event:FieldSizeChange=>resize(event.newSize)
+    case event:CellChange=>redraw
   }
   val mines = new Button("Restliche Minen: "+controller.getRest)
   contents = new BorderPanel {
@@ -66,9 +68,12 @@ class SwingGUI (controller: ControllerInterface) extends Frame {
 
     contents += new Menu("Options") {
       mnemonic = Key.O
-      contents += new MenuItem(Action("Easy") { controller.resize(10,15) })
-      contents += new MenuItem(Action("Medium") { controller.resize(12,20) })
-      contents += new MenuItem(Action("Heavy") { controller.resize(15,40) })
+      contents += new MenuItem(Action("Easy") { controller.resize(5,3)
+        controller.createRandomField()})
+      contents += new MenuItem(Action("Medium") { controller.resize(10,20)
+        controller.createRandomField()})
+      contents += new MenuItem(Action("Heavy") {  controller.resize(15,40)
+      controller.createRandomField()})
 
     }
 
@@ -78,8 +83,8 @@ class SwingGUI (controller: ControllerInterface) extends Frame {
   visible = true
   redraw
 
-  def resize(gridSize: Int) = {
-    cells = Array.ofDim[CellPanel](controller.fieldsizex, controller.fieldsizey)
+  def resize(fieldSize: Int) = {
+    cells = Array.ofDim[CellPanel](fieldSize, fieldSize)
     contents = new BorderPanel {
       add(gridPanel, BorderPanel.Position.Center)
       add(statusline, BorderPanel.Position.South)

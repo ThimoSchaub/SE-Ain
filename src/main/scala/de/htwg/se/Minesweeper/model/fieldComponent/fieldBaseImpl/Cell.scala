@@ -1,7 +1,9 @@
 package de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl
 
+import de.htwg.se.Minesweeper.model.fieldComponent.CellInterface
 import io.github.todokr.Emojipolation._
-class Cell() {
+
+class Cell() extends CellInterface {
   val MINE = 9
   var isVisible = false
   var state = -1
@@ -10,31 +12,38 @@ class Cell() {
   def getState(): Int = {
     return state
   }
-  def setState(int: Int): Unit ={
+
+  def setState(int: Int): Unit = {
     state = int
   }
 
-  def getVisibility():Boolean={
+  def getVisibility(): Boolean = {
     return isVisible
   }
-  def setVisibility(visible:Boolean)={
+
+  def setVisibility(visible: Boolean) = {
     isVisible = visible
   }
 
   def getFlag(): Boolean = {
     return flag
   }
+
   def setFlag(toFlag: Boolean): Unit = {
     flag = toFlag
   }
+
   def toggleFlag(): Unit = {
     flag = !flag
   }
 
   def check(): Boolean = {
-    setVisibility(true)
-    if (getState() == MINE && isVisible){
-      return true
+    if (!getFlag()) {
+      setVisibility(true)
+      if (getState() == MINE && isVisible) {
+        return true
+      }
+      return false
     }
     return false
   }
@@ -45,7 +54,7 @@ class Cell() {
 
   override def toString(): String = {
     if (isVisible) {
-      if(getState()==9){
+      if (getState() == 9) {
         return emoji":bomb:"
       }
 

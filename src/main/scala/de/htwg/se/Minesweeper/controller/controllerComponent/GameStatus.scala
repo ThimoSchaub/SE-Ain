@@ -1,5 +1,4 @@
-package de.htwg.se.Minesweeper.controller
-
+package de.htwg.se.Minesweeper.controller.controllerComponent
 
 object GameStatus extends Enumeration{
   type GameStatus = Value
