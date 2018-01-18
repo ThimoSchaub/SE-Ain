@@ -2,11 +2,13 @@ package de.htwg.se.Minesweeper.aview.gui
 
 import scala.swing._
 import javax.swing.table._
+
+import de.htwg.se.Minesweeper.controller.controllerComponent.ControllerInterface
+
 import scala.swing.event._
-import de.htwg.se.Minesweeper.controller.Controller
 
 
-class CellPanel(row: Int, column: Int, controller: Controller) extends FlowPanel {
+class CellPanel(row: Int, column: Int, controller: ControllerInterface) extends FlowPanel {
 
   val cellColor = new Color(224, 224, 255)
 

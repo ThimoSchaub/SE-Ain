@@ -1,17 +1,18 @@
 package de.htwg.se.Minesweeper.aview.gui
 
+import java.awt.BorderLayout
+
 import scala.swing._
 import scala.swing.event._
-import de.htwg.se.Minesweeper.controller._
-
+import de.htwg.se.Minesweeper.controller.controllerComponent.{CellChange, ControllerInterface}
 class CellClicked(val row: Int, val column: Int) extends Event
 
-class SwingGUI (controller: Controller) extends Frame {
+class SwingGUI (controller: ControllerInterface) extends Frame {
 
   listenTo(controller)
 
   title = "Minesweeper"
-  var cells = Array.ofDim[CellPanel](controller.field.fieldsizey, controller.field.fieldsizex)
+  var cells = Array.ofDim[CellPanel](controller.fieldsizey, controller.fieldsizex)
 
 
   def gridPanel = new GridPanel(controller.blockSize, controller.blockSize) {
@@ -31,9 +32,11 @@ class SwingGUI (controller: Controller) extends Frame {
   }
   val statusline = new TextField(controller.statusText, 20)
   reactions +={
-    case cellevent:Cellchange=>redraw
+    case cellevent:CellChange=>redraw
   }
+  val mines = new Button("Restliche Minen: "+controller.getRest)
   contents = new BorderPanel {
+    add(mines,BorderPanel.Position.North)
     add(gridPanel, BorderPanel.Position.Center)
     add(statusline, BorderPanel.Position.South)
   }
@@ -58,22 +61,25 @@ class SwingGUI (controller: Controller) extends Frame {
       contents += new MenuItem(Action("Solve") { controller.solve
       redraw})
     }
-//
-//    contents += new Menu("Options") {
-//      mnemonic = Key.O
-//      contents += new MenuItem(Action("Show all candidates") { controller.toggleShowAllCandidates })
-//      contents += new MenuItem(Action("Size 1*1") { controller.resize(1) })
-//      contents += new MenuItem(Action("Size 4*4") { controller.resize(4) })
-//      contents += new MenuItem(Action("Size 9*9") { controller.resize(9) })
-//
-//    }
+
+
+
+    contents += new Menu("Options") {
+      mnemonic = Key.O
+      contents += new MenuItem(Action("Easy") { controller.resize(10,15) })
+      contents += new MenuItem(Action("Medium") { controller.resize(12,20) })
+      contents += new MenuItem(Action("Heavy") { controller.resize(15,40) })
+
+    }
+
+    contents += mines
   }
 
   visible = true
   redraw
 
   def resize(gridSize: Int) = {
-    cells = Array.ofDim[CellPanel](controller.field.fieldsizex, controller.field.fieldsizey)
+    cells = Array.ofDim[CellPanel](controller.fieldsizex, controller.fieldsizey)
     contents = new BorderPanel {
       add(gridPanel, BorderPanel.Position.Center)
       add(statusline, BorderPanel.Position.South)
@@ -81,9 +87,10 @@ class SwingGUI (controller: Controller) extends Frame {
   }
   def redraw = {
     for {
-      row <- 0 until controller.field.fieldsizex
-      column <- 0 until controller.field.fieldsizey
+      row <- 0 until controller.fieldsizex
+      column <- 0 until controller.fieldsizey
     } cells(row)(column).redraw
+    mines.text_=("Restliche Minen:"+controller.getRest)
     statusline.text = controller.statusText
     repaint
   }

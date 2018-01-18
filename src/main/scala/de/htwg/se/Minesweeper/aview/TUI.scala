@@ -1,10 +1,11 @@
 package de.htwg.se.Minesweeper.aview
 
-import de.htwg.se.Minesweeper.controller.{Cellchange, Controller}
+import de.htwg.se.Minesweeper.controller.controllerComponent.CellChange
+import de.htwg.se.Minesweeper.controller.controllerComponent.ControllerInterface
 
 import scala.swing.Reactor
 
-class TUI(controller: Controller)extends Reactor{
+class TUI(controller: ControllerInterface)extends Reactor{
 
 
   listenTo(controller)
@@ -23,6 +24,9 @@ class TUI(controller: Controller)extends Reactor{
     }
   }
   reactions+={
-    case cellevent:Cellchange=>println(controller.fieldToString)
+    case cellevent:CellChange=>{
+      println(controller.fieldToString)
+      println(controller.statusText)
+    }
   }
 }

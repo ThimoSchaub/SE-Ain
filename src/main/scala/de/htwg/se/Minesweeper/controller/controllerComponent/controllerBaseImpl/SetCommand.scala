@@ -1,4 +1,5 @@
-package de.htwg.se.Minesweeper.controller
+package de.htwg.se.Minesweeper.controller.controllerComponent.controllerBaseImpl
+
 
 import de.htwg.se.Minesweeper.util.Command
 
