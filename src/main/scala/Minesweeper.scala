@@ -2,7 +2,7 @@ package de.htwg.se.Minesweeper
 
 import de.htwg.se.Minesweeper.aview.gui.SwingGUI
 import de.htwg.se.Minesweeper.aview.TUI
-import de.htwg.se.Minesweeper.controller.Controller
+import de.htwg.se.Minesweeper.controller.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl.Field
 
 object Minesweeper {

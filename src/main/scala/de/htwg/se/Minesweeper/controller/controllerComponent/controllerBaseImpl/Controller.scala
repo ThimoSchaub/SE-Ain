@@ -1,22 +1,24 @@
-package de.htwg.se.Minesweeper.controller
+package de.htwg.se.Minesweeper.controller.controllerComponent.controllerBaseImpl
 
-import de.htwg.se.Minesweeper.controller.GameStatus.{GameStatus, _}
+import de.htwg.se.Minesweeper.controller.controllerComponent.{CellChange, ControllerInterface, GameStatus}
+import de.htwg.se.Minesweeper.controller.controllerComponent.GameStatus.{GameStatus, _}
+import de.htwg.se.Minesweeper.model.fieldComponent.FieldInterface
 import de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl.Field
-import de.htwg.se.Minesweeper.util.{UndoManager}
+import de.htwg.se.Minesweeper.util.UndoManager
 
 import scala.swing.Publisher
 import scala.swing.event.Event
 
-class Controller(f:Field) extends Publisher {
+class Controller(f:Field) extends ControllerInterface {
   var field: Field = f
   private val undoManager = new UndoManager
   var gameStatus: GameStatus = IDLE
 
   def createRandomField():Unit = {
-    field = new Field(field.fieldsizex, field.fieldsizey, field.mine)
+    field = new Field(fieldsizex, fieldsizey, field.getMines)
     field.visiblechells = 0
     gameStatus = NEW
-    publish(new Cellchange)
+    publish(new CellChange)
   }
 
   def fieldToString: String = field.toString
@@ -30,7 +32,7 @@ class Controller(f:Field) extends Publisher {
       if (field.checkmine){
         gameStatus = LOST
       }
-      publish(new Cellchange)
+      publish(new CellChange)
     }
   }
 
@@ -42,23 +44,35 @@ class Controller(f:Field) extends Publisher {
     }
     undoManager.doStep(new SolveCommand(this))
     gameStatus = SOLVED
-    publish(new Cellchange)
+    publish(new CellChange)
   }
   def statusText:String = GameStatus.message(gameStatus)
   def undo: Unit = {
     undoManager.undoStep
     gameStatus = UNDO
-    publish(new Cellchange)
+    publish(new CellChange)
   }
 
   def redo: Unit = {
     undoManager.redoStep
     gameStatus = REDO
-    publish(new Cellchange)
+    publish(new CellChange)
   }
-  def fieldSize:Int = field.fieldsizex*field.fieldsizey
-  def blockSize:Int=Math.sqrt(fieldSize).toInt
+  def getFieldsize:Int = field.getFieldsizex*field.getFieldsizey
+  def blockSize:Int=Math.sqrt(getFieldsize).toInt
 
   def cell(row: Int, col: Int) = field.getCell(row, col)
+
+  override def fieldsizex = field.getFieldsizex
+
+  override def fieldsizey = field.getFieldsizey
+
+  override def getRest = field.getRestmine
+
+  override def resize(size: Int, mines: Int): Unit = {
+    field = new Field(size, size, mines)
+    field.visiblechells = 0
+    gameStatus = NEW
+    publish(new CellChange)}
 }
-class Cellchange extends Event
+
