@@ -11,7 +11,7 @@ class Field(var x:Int,var y :Int,var mine :Int) extends FieldInterface{
 
   override def getCell(x: Int, y: Int): CellInterface = RandomCell
 
-  override def performAction(row: Int, col: Int, action: Int): FieldInterface = this
+  override def performAction(row: Int, col: Int, action: Int, manually: Boolean): FieldInterface = this
 
   override def checksolved: Boolean = false
 

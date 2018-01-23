@@ -7,7 +7,7 @@ trait FieldInterface {
   def getMines: Int
   def getCell(x: Int, y: Int): CellInterface
   //def setCell(x: Int, y: Int, state: Int): Unit
-  def performAction(row: Int, col: Int, action: Int):FieldInterface
+  def performAction(row: Int, col: Int, action: Int, manually: Boolean):FieldInterface
   def checksolved: Boolean
   //def allVisible: Unit
   //def set_Mines_state(): Unit
