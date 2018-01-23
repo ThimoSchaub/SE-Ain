@@ -45,7 +45,7 @@ class Cell() extends CellInterface {
       }
       return false
     }
-    return false
+    false
   }
 
   def undocheck(): Unit = {

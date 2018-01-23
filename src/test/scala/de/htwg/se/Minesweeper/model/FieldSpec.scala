@@ -31,7 +31,7 @@ class FieldSpec extends WordSpec with Matchers {
       field.toString should be("\n+---+\n|   |\n+---+\n")
     }
     "have the Cell with state Flag" in {
-      field.performAction(0,0,3)
+      field.performAction(0,0,3,true)
       field.getCell(0,0).getFlag() should be(true)
     }
    /* "have the Cell with state" in {

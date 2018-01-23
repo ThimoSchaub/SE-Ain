@@ -16,7 +16,7 @@ class Controller(var field:Field) extends ControllerInterface {
 
   def createRandomField():Unit = {
     field = new Field(fieldsizex, fieldsizey, field.getMines)
-    field.visiblechells = 0
+    field.visibleCells = 0
     gameStatus = NEW
     publish(new CellChange)
   }
@@ -24,7 +24,7 @@ class Controller(var field:Field) extends ControllerInterface {
   def fieldToString: String = field.toString
 
   def set(row: Int, col: Int, action: Int): Unit = {
-    if(gameStatus!=LOST&&gameStatus!=SOLVED){
+    if(gameStatus != LOST && gameStatus != SOLVED){
       undoManager.doStep(new SetCommand(row, col, action, this))
       if (field.checksolved){
         gameStatus = SOLVED
@@ -71,7 +71,7 @@ class Controller(var field:Field) extends ControllerInterface {
 
   override def resize(size: Int, mines: Int): Unit = {
     field = new Field(size, size, mines)
-    field.visiblechells = 0
+    field.visibleCells = 0
     gameStatus = NEW
     publish(new FieldSizeChange(size))
   }
