@@ -33,7 +33,6 @@ class CellPanel(row: Int, column: Int, controller: ControllerInterface) extends 
         controller.set(row,column,evt.peer.getButton())
         label.text = cellText(row, column)
         repaint
-
       }
       case _ =>{
         label.text = cellText(row, column)
@@ -41,7 +40,6 @@ class CellPanel(row: Int, column: Int, controller: ControllerInterface) extends 
       }
     }
   }
-
 
   def redraw = {
     label.text = cellText(row, column)

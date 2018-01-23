@@ -8,7 +8,7 @@ case class Field(var x: Int, var y: Int, var mines: Int) extends FieldInterface 
   val fieldsizex = x
   val fieldsizey = y
   var mine = mines
-  var visiblechells = 0
+  var visibleCells = 0
   val field = Array.ofDim[Cell](x, y)
   for (
     row <- 0 until fieldsizex;
@@ -41,7 +41,7 @@ case class Field(var x: Int, var y: Int, var mines: Int) extends FieldInterface 
     field(x)(y).setState(state)
   }
 
-  def performAction(row: Int, col: Int, action: Int): Field = {
+  def performAction(row: Int, col: Int, action: Int, manually: Boolean): Field = {
     action match {
       case 3 => {
         field(row)(col).toggleFlag()
@@ -52,40 +52,64 @@ case class Field(var x: Int, var y: Int, var mines: Int) extends FieldInterface 
         }
       }
       case 1 => {
-        if (visiblechells == 0) {
+        if (manually && getCell(row, col).isVisible && getRemainingFlags(row, col) == 0) {
+          for (
+            x <- row - 1 until row + 2;
+            y <- col - 1 until col + 2
+          ) {
+            if (!getCell(x, y).getFlag() && !getCell(x, y).isVisible) {
+              performAction(x, y, 1, false)
+            }
+          }
+        }
+        if (visibleCells == 0) {
           set_Mines_state(row, col)
           getCell(row, col).check()
-          visiblechells += 1
-          performAction(row, col, 1)
+          visibleCells += 1
+          performAction(row, col, 1, false)
         } else if (getCell(row, col).getState() == 0 && (!getCell(row, col).isVisible)) {
           getCell(row, col).check()
-          visiblechells += 1
+          visibleCells += 1
           for (
             x <- row - 1 until row + 2;
             y <- col - 1 until col + 2
           ) {
             if (0 <= x && 0 <= y && y <= fieldsizey - 1 && x <= fieldsizex - 1) {
-              performAction(x, y, 1)
+              performAction(x, y, 1, false)
             }
           }
-        } else {
+        } else if (getCell(row, col).getState() > -1){
           field(row)(col).check()
           if (field(row)(col).check()) {
             allVisible
             checkmine = true
           }
         }
-
       }
       case 0 => {
         field(row)(col).undocheck()
-        visiblechells -= 1
+        visibleCells -= 1
       }
       case _ =>
     }
-    return this
+    this
   }
 
+  def getRemainingFlags(row: Int, col: Int): Int = {
+    var remainingFlags = field(row)(col).getState()
+    for (
+      x <- row - 1 until row + 2;
+      y <- col - 1 until col + 2
+    ) {
+      if (0 <= x && 0 <= y && y <= fieldsizey - 1 && x <= fieldsizex - 1) {
+        if (field(x)(y).getFlag()) {
+          remainingFlags -= 1
+        }
+      }
+    }
+    remainingFlags
+  }
+  
   def checksolved: Boolean = {
     for (
       row <- 0 until fieldsizex;
