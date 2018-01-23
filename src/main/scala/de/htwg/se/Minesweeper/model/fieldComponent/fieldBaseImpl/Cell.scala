@@ -40,7 +40,10 @@ class Cell() extends CellInterface {
   def check(): Boolean = {
     if (!getFlag()) {
       setVisibility(true)
-      getState() == MINE && isVisible
+      if (getState() == MINE && isVisible) {
+        return true
+      }
+      return false
     }
     false
   }
