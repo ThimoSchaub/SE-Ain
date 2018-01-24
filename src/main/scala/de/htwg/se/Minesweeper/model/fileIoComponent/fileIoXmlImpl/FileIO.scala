@@ -18,9 +18,9 @@ class FileIO extends FileIOInterface {
     val size = sizeAttr.text.toInt
     val injector = Guice.createInjector(new MinesweeperModule)
     size match {
-      case 1 => fieldOption = Some(injector.instance[FieldInterface](Names.named("tiny")))
-      case 4 => fieldOption = Some(injector.instance[FieldInterface](Names.named("small")))
-      case 9 => fieldOption = Some(injector.instance[FieldInterface](Names.named("normal")))
+      case 5 => fieldOption = Some(injector.instance[FieldInterface](Names.named("easy")))
+      case 10 => fieldOption = Some(injector.instance[FieldInterface](Names.named("medium")))
+      case 15 => fieldOption = Some(injector.instance[FieldInterface](Names.named("heavy")))
       case _ =>
     }
     val cellNodes= (file \\ "cell")
@@ -30,9 +30,12 @@ class FileIO extends FileIOInterface {
         for (cell <- cellNodes) {
           val row: Int = (cell \ "@row").text.toInt
           val col: Int = (cell \ "@col").text.toInt
-          val isVisible: Boolean = cell.text.trim.toBoolean
-          val state: Int = cell.text.trim.toInt
-          val flag: Boolean = cell.text.trim.toBoolean
+          var toSplit: String = cell.text
+          val splitted = toSplit.split(" ")
+
+          val isVisible: Boolean = splitted(1).toBoolean
+          val state: Int = splitted(2).toInt
+          val flag: Boolean = splitted(3).toBoolean
           _field = _field.set(row, col, isVisible, state, flag)
         }
         fieldOption = Some(_field)
@@ -69,11 +72,9 @@ class FileIO extends FileIOInterface {
 
   def cellToXml(field:FieldInterface, row:Int, col:Int) ={
     <cell row ={row.toString} col={col.toString}>
-      {
-      field.getCell(row, col).getVisibility()
-      field.getCell(row, col).getState()
-      field.getCell(row, col).getFlag()
-      }
+      {field.getCell(row, col).getVisibility()}
+      {field.getCell(row, col).getState()}
+      {field.getCell(row, col).getFlag()}
     </cell>
   }
 

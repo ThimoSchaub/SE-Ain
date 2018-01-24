@@ -15,6 +15,7 @@ import de.htwg.se.Minesweeper.util.UndoManager
 import scala.swing.Publisher
 import scala.swing.event.Event
 
+
 class Controller @Inject() (var field:FieldInterface) extends ControllerInterface {
 
   private val undoManager = new UndoManager
@@ -70,7 +71,12 @@ class Controller @Inject() (var field:FieldInterface) extends ControllerInterfac
     val fieldOption = fileIo.load
     fieldOption match {
       case None => {
-        field = new Field(fieldsizex, fieldsizey, 0)
+        field.getFieldSizeX match {
+          case 5 => field = injector.instance[FieldInterface](Names.named("easy")).setNew
+          case 10 => field = injector.instance[FieldInterface](Names.named("medium")).setNew
+          case 15 => field = injector.instance[FieldInterface](Names.named("hard")).setNew
+          case _ =>
+        }
         gameStatus = COULDNOTLOAD
       }
       case Some(_field) => {
@@ -78,9 +84,10 @@ class Controller @Inject() (var field:FieldInterface) extends ControllerInterfac
         gameStatus = LOADED
       }
     }
+    publish(new CellChange)
   }
 
-  def toJson = field.toJson
+
 
   def statusText:String = GameStatus.message(gameStatus)
 

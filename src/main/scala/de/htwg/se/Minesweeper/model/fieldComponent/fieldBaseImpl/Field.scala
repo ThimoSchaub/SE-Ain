@@ -1,8 +1,12 @@
 package de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl
 
+
+import de.htwg.se.Minesweeper.model.fieldComponent.{CellInterface, FieldInterface}
+import play.api.libs.json.{JsNumber, JsValue, Json, Writes}
 import com.google.inject.Inject
 import com.google.inject.name.Named
-import de.htwg.se.Minesweeper.model.fieldComponent.FieldInterface
+
+
 
 case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")sizey:Int,@Named("DefaultMine")mines:Int) extends FieldInterface {
   var checkMine: Boolean = false
@@ -165,7 +169,13 @@ case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")si
     }
     box + "Remaining mines: " + getRestMine
   }
-
+  def set(row: Int, col: Int, isVisible: Boolean, state: Int, flag: Boolean): Field = {
+    var cell = getCell(row, col)
+    cell.setVisibility(isVisible)
+    cell.setState(state)
+    cell.setFlag(flag)
+    this
+  }
   def setMinesState(row: Int, col: Int): Unit = {
     val rand = scala.util.Random
     var mines_set = 0
@@ -199,4 +209,31 @@ case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")si
       }
     }
   }
+
+
+  implicit val cellWrites = new Writes[CellInterface] {
+    def writes(cell: CellInterface) = Json.obj(
+      "isVisible" -> cell.getVisibility(),
+      "state" -> cell.getState(),
+      "flag" -> cell.getFlag()
+    )
+  }
+
+  def toJson:JsValue = {
+    Json.obj(
+      "field" -> Json.obj(
+        "size" -> JsNumber(fieldSizeX),
+        "cells" -> Json.toJson(
+          for {row <- 0 until fieldSizeX;
+               col <- 0 until fieldSizeX} yield {
+            Json.obj(
+              "row" -> row,
+              "col" -> col,
+              "cell" -> Json.toJson(getCell(row, col)))
+          }
+        )
+      )
+    )
+  }
+
 }

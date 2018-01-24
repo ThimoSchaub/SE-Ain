@@ -18,9 +18,9 @@ class FileIO extends FileIOInterface {
     val size = (json \ "field" \ "size").get.toString.toInt
     val injector = Guice.createInjector(new MinesweeperModule)
     size match {
-      case 1 => fieldOption = Some(injector.instance[FieldInterface](Names.named("tiny")))
-      case 4 => fieldOption = Some(injector.instance[FieldInterface](Names.named("small")))
-      case 9 => fieldOption = Some(injector.instance[FieldInterface](Names.named("normal")))
+      case 5 => fieldOption = Some(injector.instance[FieldInterface](Names.named("easy")))
+      case 10 => fieldOption = Some(injector.instance[FieldInterface](Names.named("medium")))
+      case 15 => fieldOption = Some(injector.instance[FieldInterface](Names.named("heavy")))
       case _ =>
     }
     fieldOption match {

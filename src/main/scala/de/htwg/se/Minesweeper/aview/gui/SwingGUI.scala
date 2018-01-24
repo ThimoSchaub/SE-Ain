@@ -50,7 +50,9 @@ class SwingGUI (controller: ControllerInterface) extends Frame {
       redraw
       })
       contents += new MenuItem(Action("Save") {controller.save})
-      contents += new MenuItem(Action("Load") {controller.load})
+      contents += new MenuItem(Action("Load") {controller.load
+      redraw
+      })
       contents += new MenuItem(Action("Quit") { System.exit(0) })
     }
     contents += new Menu("Edit") {
