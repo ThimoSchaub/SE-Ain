@@ -26,10 +26,10 @@ class Controller(var field:Field) extends ControllerInterface {
   def set(row: Int, col: Int, action: Int): Unit = {
     if(gameStatus != LOST && gameStatus != SOLVED){
       undoManager.doStep(new SetCommand(row, col, action, this))
-      if (field.checksolved){
+      if (field.checkSolved){
         gameStatus = SOLVED
       }
-      if (field.checkmine){
+      if (field.checkMine){
         gameStatus = LOST
       }
       publish(new CellChange)
@@ -40,7 +40,7 @@ class Controller(var field:Field) extends ControllerInterface {
 
   def solve: Unit = {
     if(field.getCell(0,0).getState() == -1) {
-      field.set_Mines_state(0,0)
+      field.setMinesState(0,0)
     }
     undoManager.doStep(new SolveCommand(this))
     gameStatus = SOLVED
@@ -58,16 +58,16 @@ class Controller(var field:Field) extends ControllerInterface {
     gameStatus = REDO
     publish(new CellChange)
   }
-  def getFieldsize:Int = field.getFieldsizex*field.getFieldsizey
+  def getFieldsize:Int = field.getFieldSizeX*field.getFieldSizeY
   def blockSize:Int=Math.sqrt(getFieldsize).toInt
 
   def cell(row: Int, col: Int) = field.getCell(row, col)
 
-  override def fieldsizex = field.getFieldsizex
+  override def fieldsizex = field.getFieldSizeX
 
-  override def fieldsizey = field.getFieldsizey
+  override def fieldsizey = field.getFieldSizeY
 
-  override def getRest = field.getRestmine
+  override def getRest = field.getRestMine
 
   override def resize(size: Int, mines: Int): Unit = {
     field = new Field(size, size, mines)
