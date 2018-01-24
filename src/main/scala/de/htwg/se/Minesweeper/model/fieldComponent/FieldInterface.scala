@@ -14,6 +14,7 @@ trait FieldInterface {
   def allVisible: Unit
   def setMinesState(row:Int,col:Int): Unit
   def getRestMine:Int
+  def setNew:FieldInterface
 }
 trait CellInterface{
   def getState(): Int

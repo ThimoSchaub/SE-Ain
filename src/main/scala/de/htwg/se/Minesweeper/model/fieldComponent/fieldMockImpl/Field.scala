@@ -24,6 +24,7 @@ class Field(var x:Int,var y :Int,var mine :Int) extends FieldInterface{
   override def getRestMine: Int = 0
 
   override def allVisible: Unit = {}
+  override def setNew:FieldInterface = this
 }
 object RandomCell extends CellInterface{
   override def getState(): Int = 0
@@ -33,4 +34,5 @@ object RandomCell extends CellInterface{
   override def getFlag(): Boolean = false
 
   override def check(): Boolean = false
+
 }

@@ -123,9 +123,30 @@ case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")si
       field(row)(col).setVisibility(true)
     }
   }
+  def allunVisible(): Unit = {
+    for (
+      row <- 0 until fieldSizeX;
+      col <- 0 until fieldSizeY
+    ) {
+      field(row)(col).setVisibility(false)
+    }
+  }
 
   def getRestMine: Int = mine - flags
-
+  def setNew:Field={
+    allunVisible()
+    for (
+      row <- 0 until fieldSizeX;
+      col <- 0 until fieldSizeY
+    ) {
+      field(row)(col).setFlag(false)
+      field(row)(col).setState(-1)
+    }
+    setMinesState(0,0)
+    checkMine = false
+    flags = 0
+    return this
+  }
   override def toString: String = {
 
     val lineSeparator = "+---" * fieldSizeY + "+\n"
@@ -148,15 +169,15 @@ case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")si
   def setMinesState(row: Int, col: Int): Unit = {
     val rand = scala.util.Random
     var mines_set = 0
-    val mine = 9
+    val minestate = 9
     while (
       mines_set < mine
     ) {
       val x = rand.nextInt(fieldSizeX)
       val y = rand.nextInt(fieldSizeY)
       val cell = getCell(x, y)
-      if (cell.getState() != mine && (!(x == row && y == col))) {
-        cell.setState(mine)
+      if (cell.getState() != minestate && (!(x == row && y == col))) {
+        cell.setState(minestate)
         mines_set += 1
       }
     }
@@ -164,13 +185,13 @@ case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")si
       row <- 0 until fieldSizeX;
       col <- 0 until fieldSizeY
     ) {
-      if (getCell(row, col).getState() != mine) {
+      if (getCell(row, col).getState() != minestate) {
         var count = 0
         for (
           x <- row - 1 until row + 2;
           y <- col - 1 until col + 2
         ) {
-          if (getCell(x, y).getState() == mine) {
+          if (getCell(x, y).getState() == minestate) {
             count += 1
           }
         }
