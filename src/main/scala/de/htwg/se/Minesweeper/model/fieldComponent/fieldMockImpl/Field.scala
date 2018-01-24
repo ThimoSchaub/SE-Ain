@@ -3,9 +3,9 @@ import de.htwg.se.Minesweeper.model.fieldComponent.{CellInterface, FieldInterfac
 import de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl.Field
 
 class Field(var x:Int,var y :Int,var mine :Int) extends FieldInterface{
-  override def getFieldsizex: Int = x
+  override def getFieldSizeX: Int = x
 
-  override def getFieldsizey: Int = y
+  override def getFieldSizeY: Int = y
 
   override def getMines: Int = mine
 
@@ -13,7 +13,7 @@ class Field(var x:Int,var y :Int,var mine :Int) extends FieldInterface{
 
   override def performAction(row: Int, col: Int, action: Int, manually: Boolean): FieldInterface = this
 
-  override def checksolved: Boolean = false
+  override def checkSolved: Boolean = false
 
 }
 object RandomCell extends CellInterface{
