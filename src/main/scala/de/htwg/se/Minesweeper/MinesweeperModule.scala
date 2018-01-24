@@ -2,9 +2,12 @@ package de.htwg.se.Minesweeper
 
 import com.google.inject.AbstractModule
 import com.google.inject.name.Names
+import net.codingwell.scalaguice.ScalaModule
 import de.htwg.se.Minesweeper.controller.controllerComponent._
+import de.htwg.se.Minesweeper.model.fileIoComponent._
 import de.htwg.se.Minesweeper.model.fieldComponent.FieldInterface
 import de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl.Field
+
 import net.codingwell.scalaguice.ScalaModule
 class MinesweeperModule extends AbstractModule with ScalaModule {
   val defaultSize:Int = 10
@@ -20,7 +23,7 @@ class MinesweeperModule extends AbstractModule with ScalaModule {
     bind[FieldInterface].annotatedWithName("medium").toInstance(new Field(10,10,20))
     bind[FieldInterface].annotatedWithName("hard").toInstance(new Field(15,15,40))
 
-    //bind[FileIOInterface].to[fileIoJsonImpl.FileIO]
+    bind[FileIOInterface].to[fileIoJsonImpl.FileIO]
 
   }
 }

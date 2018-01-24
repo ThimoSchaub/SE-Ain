@@ -19,7 +19,7 @@ class FieldSpec extends WordSpec with Matchers {
       field.mines should be(0)
     }
     "have a getCell" in {
-      field.getCell(0, 0).getState() should be(0)
+      field.getCell(0, 0).getState() should be(-1)
     }
     /*"have a setCell" in {
       val cell1 = new Cell()

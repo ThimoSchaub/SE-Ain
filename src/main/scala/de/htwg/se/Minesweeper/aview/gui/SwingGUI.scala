@@ -49,6 +49,8 @@ class SwingGUI (controller: ControllerInterface) extends Frame {
       contents += new MenuItem(Action("New") { controller.createRandomField()
       redraw
       })
+      contents += new MenuItem(Action("Save") {controller.save})
+      contents += new MenuItem(Action("Load") {controller.load})
       contents += new MenuItem(Action("Quit") { System.exit(0) })
     }
     contents += new Menu("Edit") {
@@ -63,8 +65,6 @@ class SwingGUI (controller: ControllerInterface) extends Frame {
       contents += new MenuItem(Action("Solve") { controller.solve
       redraw})
     }
-
-
 
     contents += new Menu("Options") {
       mnemonic = Key.O
