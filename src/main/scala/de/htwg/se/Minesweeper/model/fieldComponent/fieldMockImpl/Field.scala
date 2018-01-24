@@ -15,6 +15,15 @@ class Field(var x:Int,var y :Int,var mine :Int) extends FieldInterface{
 
   override def checkSolved: Boolean = false
 
+  override def checkMine: Boolean = false
+
+  override var visibleCells: Int = _
+
+  override def setMinesState(row: Int, col: Int): Unit = {}
+
+  override def getRestMine: Int = 0
+
+  override def allVisible: Unit = {}
 }
 object RandomCell extends CellInterface{
   override def getState(): Int = 0

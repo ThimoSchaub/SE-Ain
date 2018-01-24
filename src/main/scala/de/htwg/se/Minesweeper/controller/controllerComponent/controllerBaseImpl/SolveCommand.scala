@@ -1,17 +1,17 @@
 package de.htwg.se.Minesweeper.controller.controllerComponent.controllerBaseImpl
 
 import de.htwg.se.Minesweeper.controller.controllerComponent.GameStatus.SOLVED
-import de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl.{Field, Solver}
+import de.htwg.se.Minesweeper.model.fieldComponent.FieldInterface
+import de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl.Field
 import de.htwg.se.Minesweeper.util.Command
 
 
 class SolveCommand(controller: Controller) extends Command {
-  var memento: Field = controller.field
+  var memento: FieldInterface = controller.field
   override def doStep: Unit = {
     memento = controller.field
-    val (success, newfield) = new Solver(controller.field).solve
-    if (success) controller.gameStatus = SOLVED
-    controller.field = newfield
+    controller.field.allVisible
+    controller.gameStatus = SOLVED
   }
 
   override def undoStep: Unit = {
