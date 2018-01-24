@@ -24,9 +24,9 @@ class Controller @Inject() (var field:FieldInterface) extends ControllerInterfac
 
   def createRandomField():Unit = {
     field.getFieldSizeX match {
-      case 5 => field = injector.instance[FieldInterface](Names.named("easy"))
-      case 10 => field = injector.instance[FieldInterface](Names.named("medium"))
-      case 15 => field = injector.instance[FieldInterface](Names.named("hard"))
+      case 5 => field = injector.instance[FieldInterface](Names.named("easy")).setNew
+      case 10 => field = injector.instance[FieldInterface](Names.named("medium")).setNew
+      case 15 => field = injector.instance[FieldInterface](Names.named("hard")).setNew
       case _ =>
     }
     field.visibleCells = 0
@@ -110,9 +110,9 @@ class Controller @Inject() (var field:FieldInterface) extends ControllerInterfac
 
   override def resize(size: Int): Unit = {
     size match {
-      case 5 => field = injector.instance[FieldInterface](Names.named("easy"))
-      case 10 => field = injector.instance[FieldInterface](Names.named("medium"))
-      case 15 => field = injector.instance[FieldInterface](Names.named("hard"))
+      case 5 => field = injector.instance[FieldInterface](Names.named("easy")).setNew
+      case 10 => field = injector.instance[FieldInterface](Names.named("medium")).setNew
+      case 15 => field = injector.instance[FieldInterface](Names.named("hard")).setNew
       case  _=>
     }
     gameStatus = NEW

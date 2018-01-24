@@ -82,7 +82,7 @@ class SwingGUI (controller: ControllerInterface) extends Frame {
 
     contents += mines
   }
-
+  resizable_=(false)
   visible = true
   redraw
 

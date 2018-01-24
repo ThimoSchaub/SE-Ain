@@ -1,7 +1,5 @@
 package de.htwg.se.Minesweeper.model.fieldComponent
 
-import play.api.libs.json.JsValue
-
 
 trait FieldInterface {
   def getFieldSizeX : Int
@@ -16,8 +14,7 @@ trait FieldInterface {
   def allVisible: Unit
   def setMinesState(row:Int,col:Int): Unit
   def getRestMine:Int
-  def set(row: Int, col: Int, isVisible: Boolean, state: Int, flag: Boolean): FieldInterface
-  def toJson: JsValue
+  def setNew:FieldInterface
 }
 trait CellInterface{
   def getState(): Int
