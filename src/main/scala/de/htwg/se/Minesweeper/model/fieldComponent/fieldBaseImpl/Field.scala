@@ -1,7 +1,7 @@
 package de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl
 
 import de.htwg.se.Minesweeper.model.fieldComponent.{CellInterface, FieldInterface}
-import play.api.libs.json.{JsNumber, JsValue, Json}
+import play.api.libs.json.{JsNumber, JsValue, Json, Writes}
 
 
 case class Field(var x: Int, var y: Int, var mines: Int) extends FieldInterface {
@@ -187,6 +187,14 @@ case class Field(var x: Int, var y: Int, var mines: Int) extends FieldInterface 
       }
     }
     box + "Remaining mines: " + getRestMine
+  }
+
+  implicit val cellWrites = new Writes[CellInterface] {
+    def writes(cell: CellInterface) = Json.obj(
+      "isVisible" -> cell.getVisibility(),
+      "state" -> cell.getState(),
+      "flag" -> cell.getFlag()
+    )
   }
 
   def toJson:JsValue = {

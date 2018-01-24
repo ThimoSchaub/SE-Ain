@@ -1,6 +1,6 @@
 package de.htwg.se.Minesweeper.model.fieldComponent.fieldMockImpl
-import de.htwg.se.Minesweeper.model.fieldComponent.{CellInterface, FieldInterface, fieldBaseImpl}
-import de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl.Field
+import de.htwg.se.Minesweeper.model.fieldComponent.{CellInterface, FieldInterface}
+import play.api.libs.json.{JsObject, JsValue, Json}
 
 class Field(var x:Int,var y :Int,var mine :Int) extends FieldInterface{
   override def getFieldSizeX: Int = x
@@ -24,6 +24,10 @@ class Field(var x:Int,var y :Int,var mine :Int) extends FieldInterface{
   override def getRestMine: Int = 0
 
   override def allVisible: Unit = {}
+
+  override def set(row: Int, col: Int, isVisible: Boolean, state: Int, flag: Boolean): FieldInterface = this
+
+  override def toJson: JsValue = Json.obj()
 }
 object RandomCell extends CellInterface{
   override def getState(): Int = 0
