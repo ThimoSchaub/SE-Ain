@@ -18,8 +18,7 @@ case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")si
   ) {
     field(row)(col) = new Cell()
   }
-
-  def getFieldSizeX: Int = fieldSizeX
+    def getFieldSizeX: Int = fieldSizeX
 
   def getFieldSizeY: Int = fieldSizeY
 
