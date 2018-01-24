@@ -1,6 +1,8 @@
 package de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl
 
-import de.htwg.se.Minesweeper.model.fieldComponent.FieldInterface
+import de.htwg.se.Minesweeper.model.fieldComponent.{CellInterface, FieldInterface}
+import play.api.libs.json.{JsNumber, JsValue, Json}
+
 
 case class Field(var x: Int, var y: Int, var mines: Int) extends FieldInterface {
   var checkMine: Boolean = false
@@ -126,23 +128,12 @@ case class Field(var x: Int, var y: Int, var mines: Int) extends FieldInterface 
 
   def getRestMine: Int = mine - flags
 
-  override def toString: String = {
-
-    val lineSeparator = "+---" * y + "+\n"
-    val line = ("|" + "to replace") * y + "|\n"
-    var box = "\n" + (lineSeparator + line) * x + lineSeparator
-    for {
-      row <- 0 until fieldSizeX
-      col <- 0 until fieldSizeY
-    } {
-      if (field(row)(col).isVisible && field(row)(col).getState() == 9 || field(row)(col).flag) {
-        box = box.replaceFirst("to replace", field(row)(col).toString() + " ")
-      }
-      else {
-        box = box.replaceFirst("to replace", " " + field(row)(col).toString() + " ")
-      }
-    }
-    box + "Remaining mines: " + getRestMine
+  def set(row: Int, col: Int, isVisible: Boolean, state: Int, flag: Boolean): Field = {
+    var cell = getCell(row, col)
+    cell.setVisibility(isVisible)
+    cell.setState(state)
+    cell.setFlag(flag)
+    this
   }
 
   def setMinesState(row: Int, col: Int): Unit = {
@@ -178,4 +169,41 @@ case class Field(var x: Int, var y: Int, var mines: Int) extends FieldInterface 
       }
     }
   }
+
+  override def toString: String = {
+
+    val lineSeparator = "+---" * y + "+\n"
+    val line = ("|" + "to replace") * y + "|\n"
+    var box = "\n" + (lineSeparator + line) * x + lineSeparator
+    for {
+      row <- 0 until fieldSizeX
+      col <- 0 until fieldSizeY
+    } {
+      if (field(row)(col).isVisible && field(row)(col).getState() == 9 || field(row)(col).flag) {
+        box = box.replaceFirst("to replace", field(row)(col).toString() + " ")
+      }
+      else {
+        box = box.replaceFirst("to replace", " " + field(row)(col).toString() + " ")
+      }
+    }
+    box + "Remaining mines: " + getRestMine
+  }
+
+  def toJson:JsValue = {
+    Json.obj(
+      "field" -> Json.obj(
+        "size" -> JsNumber(fieldSizeX),
+        "cells" -> Json.toJson(
+          for {row <- 0 until fieldSizeX;
+               col <- 0 until fieldSizeX} yield {
+            Json.obj(
+              "row" -> row,
+              "col" -> col,
+              "cell" -> Json.toJson(getCell(row, col)))
+          }
+        )
+      )
+    )
+  }
+
 }

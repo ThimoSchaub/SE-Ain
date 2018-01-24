@@ -1,6 +1,7 @@
 package de.htwg.se.Minesweeper.aview
 
-import de.htwg.se.Minesweeper.controller.controllerComponent.{CellChange, ControllerInterface, FieldSizeChange}
+import com.typesafe.scalalogging.{LazyLogging, Logger}
+import de.htwg.se.Minesweeper.controller.controllerComponent.{CellChange, ControllerInterface, FieldSizeChange, GameStatus}
 
 import scala.swing.Reactor
 
@@ -26,13 +27,14 @@ class TUI(controller: ControllerInterface)extends Reactor{
       }
     }
   }
+
   reactions+={
-    case sizeevent:FieldSizeChange=>
-      println(controller.fieldToString)
-      println(controller.statusText)
-    case cellevent:CellChange=>{
-      println(controller.fieldToString)
-      println(controller.statusText)
-    }
+    case sizeevent:FieldSizeChange => printTui
+    case cellevent:CellChange => printTui
+  }
+
+  def printTui: Unit = {
+    logger.info(controller.fieldToString)
+    logger.info(GameStatus.message(controller.gameStatus))
   }
 }
