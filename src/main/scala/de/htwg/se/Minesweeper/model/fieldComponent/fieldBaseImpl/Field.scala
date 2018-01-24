@@ -87,7 +87,7 @@ case class Field(var x: Int, var y: Int, var mines: Int) extends FieldInterface 
         }
       }
       case 0 => {
-        field(row)(col).undocheck()
+        field(row)(col).undoCheck()
         visibleCells -= 1
       }
       case _ =>

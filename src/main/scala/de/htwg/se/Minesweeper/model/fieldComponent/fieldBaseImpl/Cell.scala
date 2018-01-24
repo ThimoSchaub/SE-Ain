@@ -10,7 +10,7 @@ class Cell() extends CellInterface {
   var flag = false
 
   def getState(): Int = {
-    return state
+    state
   }
 
   def setState(int: Int): Unit = {
@@ -18,15 +18,15 @@ class Cell() extends CellInterface {
   }
 
   def getVisibility(): Boolean = {
-    return isVisible
+    isVisible
   }
 
-  def setVisibility(visible: Boolean) = {
+  def setVisibility(visible: Boolean): Unit = {
     isVisible = visible
   }
 
   def getFlag(): Boolean = {
-    return flag
+    flag
   }
 
   def setFlag(toFlag: Boolean): Unit = {
@@ -40,15 +40,11 @@ class Cell() extends CellInterface {
   def check(): Boolean = {
     if (!getFlag()) {
       setVisibility(true)
-      if (getState() == MINE && isVisible) {
-        return true
-      }
-      return false
     }
-    false
+    getState() == MINE && isVisible
   }
 
-  def undocheck(): Unit = {
+  def undoCheck(): Unit = {
     setVisibility(!getVisibility())
   }
 
@@ -57,8 +53,7 @@ class Cell() extends CellInterface {
       if (getState() == 9) {
         return emoji":bomb:"
       }
-
-      return state.toString
+      state.toString
     }
     else if (flag) {
       return emoji":triangular_flag_on_post:"
