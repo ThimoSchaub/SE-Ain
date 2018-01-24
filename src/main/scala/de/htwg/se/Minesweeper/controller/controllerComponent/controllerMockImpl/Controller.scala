@@ -35,6 +35,6 @@ class Controller(var field:FieldInterface)extends ControllerInterface{
 
   override def getRest = 1
 
-  override def resize(size: Int,mines:Int): Unit = {}
+  override def resize(size: Int): Unit = {}
 }
 

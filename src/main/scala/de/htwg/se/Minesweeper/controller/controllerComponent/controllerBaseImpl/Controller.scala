@@ -1,6 +1,10 @@
 package de.htwg.se.Minesweeper.controller.controllerComponent.controllerBaseImpl
 
 
+import com.google.inject.name.Names
+import com.google.inject.{Guice, Inject}
+import net.codingwell.scalaguice.InjectorExtensions._
+import de.htwg.se.Minesweeper.MinesweeperModule
 import de.htwg.se.Minesweeper.controller.controllerComponent.{CellChange, ControllerInterface, FieldSizeChange, GameStatus}
 import de.htwg.se.Minesweeper.controller.controllerComponent.GameStatus.{GameStatus, _}
 import de.htwg.se.Minesweeper.model.fieldComponent.FieldInterface
@@ -10,13 +14,19 @@ import de.htwg.se.Minesweeper.util.UndoManager
 import scala.swing.Publisher
 import scala.swing.event.Event
 
-class Controller (var field:FieldInterface) extends ControllerInterface {
+class Controller @Inject() (var field:FieldInterface) extends ControllerInterface {
 
   private val undoManager = new UndoManager
   var gameStatus: GameStatus = IDLE
-
+  val injector = Guice.createInjector(new MinesweeperModule)
+ // val fileIo = injector.instance[FileIOInterface]
   def createRandomField():Unit = {
-    field = new Field(fieldsizex, fieldsizey, field.getMines)
+    field.getFieldSizeX match {
+      case 5 => field = injector.instance[FieldInterface](Names.named("easy"))
+      case 10 => field = injector.instance[FieldInterface](Names.named("medium"))
+      case 15 => field = injector.instance[FieldInterface](Names.named("hard"))
+      case _ =>
+    }
     field.visibleCells = 0
     gameStatus = NEW
     publish(new CellChange)
@@ -70,9 +80,13 @@ class Controller (var field:FieldInterface) extends ControllerInterface {
 
   override def getRest = field.getRestMine
 
-  override def resize(size: Int, mines: Int): Unit = {
-    field = new Field(size, size, mines)
-    field.visibleCells = 0
+  override def resize(size: Int): Unit = {
+    size match {
+      case 5 => field = injector.instance[FieldInterface](Names.named("easy"))
+      case 10 => field = injector.instance[FieldInterface](Names.named("medium"))
+      case 15 => field = injector.instance[FieldInterface](Names.named("hard"))
+      case  _=>
+    }
     gameStatus = NEW
     publish(new FieldSizeChange(size))
   }

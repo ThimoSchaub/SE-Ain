@@ -17,7 +17,7 @@ trait ControllerInterface extends Publisher{
   def cell(row:Int, col:Int):CellInterface
   def set(row:Int, col:Int, value:Int):Unit
   def blockSize:Int
-  def resize(size:Int,mines:Int):Unit
+  def resize(size:Int):Unit
 }
 
 import scala.swing.event.Event
