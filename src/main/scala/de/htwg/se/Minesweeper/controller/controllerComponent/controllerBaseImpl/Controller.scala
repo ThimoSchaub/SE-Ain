@@ -1,5 +1,6 @@
 package de.htwg.se.Minesweeper.controller.controllerComponent.controllerBaseImpl
 
+
 import de.htwg.se.Minesweeper.controller.controllerComponent.{CellChange, ControllerInterface, FieldSizeChange, GameStatus}
 import de.htwg.se.Minesweeper.controller.controllerComponent.GameStatus.{GameStatus, _}
 import de.htwg.se.Minesweeper.model.fieldComponent.FieldInterface
@@ -9,7 +10,7 @@ import de.htwg.se.Minesweeper.util.UndoManager
 import scala.swing.Publisher
 import scala.swing.event.Event
 
-class Controller(var field:Field) extends ControllerInterface {
+class Controller (var field:FieldInterface) extends ControllerInterface {
 
   private val undoManager = new UndoManager
   var gameStatus: GameStatus = IDLE
