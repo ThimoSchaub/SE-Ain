@@ -19,6 +19,7 @@ case class Field(var x: Int, var y: Int, var mines: Int) extends FieldInterface 
     field(row)(col) = new Cell()
   }
 
+  new ()
 
   def getFieldSizeX: Int = fieldSizeX
 

@@ -29,6 +29,7 @@ class Field(var x:Int,var y :Int,var mine :Int) extends FieldInterface{
 
   override def toJson: JsValue = Json.obj()
 }
+
 object RandomCell extends CellInterface{
   override def getState(): Int = 0
 

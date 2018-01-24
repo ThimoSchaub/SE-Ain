@@ -18,6 +18,8 @@ trait ControllerInterface extends Publisher{
   def set(row:Int, col:Int, value:Int):Unit
   def blockSize:Int
   def resize(size:Int,mines:Int):Unit
+  def save: Unit
+  def load: Unit
 }
 
 import scala.swing.event.Event
