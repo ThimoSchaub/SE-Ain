@@ -1,24 +1,28 @@
 package de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl
 
+
 import de.htwg.se.Minesweeper.model.fieldComponent.{CellInterface, FieldInterface}
 import play.api.libs.json.{JsNumber, JsValue, Json, Writes}
+import com.google.inject.Inject
+import com.google.inject.name.Named
 
 
-case class Field(var x: Int, var y: Int, var mines: Int) extends FieldInterface {
+
+case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")sizey:Int,@Named("DefaultMine")mines:Int) extends FieldInterface {
   var checkMine: Boolean = false
   var flags = 0
-  val fieldSizeX: Int = x
-  val fieldSizeY: Int = y
+  val fieldSizeX: Int = size
+  val fieldSizeY: Int = sizey
   var mine: Int = mines
   var visibleCells = 0
-  val field: Array[Array[Cell]] = Array.ofDim[Cell](x, y)
+  val field: Array[Array[Cell]] = Array.ofDim[Cell](fieldSizeX, fieldSizeY)
   for (
     row <- 0 until fieldSizeX;
     col <- 0 until fieldSizeY
   ) {
     field(row)(col) = new Cell()
   }
-
+  
   def getFieldSizeX: Int = fieldSizeX
 
   def getFieldSizeY: Int = fieldSizeY
@@ -32,9 +36,8 @@ case class Field(var x: Int, var y: Int, var mines: Int) extends FieldInterface 
     field(x)(y)
   }
 
-  def setCell(x: Int, y: Int, state: Int): Unit = {
-    field(x)(y).setState(state)
-  }
+  def setCell(x: Int, y: Int, state: Int): Unit =  field(x)(y).setState(state)
+
 
   def performAction(row: Int, col: Int, action: Int, manually: Boolean): Field = {
     action match {
@@ -133,6 +136,25 @@ case class Field(var x: Int, var y: Int, var mines: Int) extends FieldInterface 
     cell.setState(state)
     cell.setFlag(flag)
     this
+
+  override def toString: String = {
+
+    val lineSeparator = "+---" * fieldSizeY + "+\n"
+    val line = ("|" + "to replace") * fieldSizeY + "|\n"
+    var box = "\n" + (lineSeparator + line) * fieldSizeX + lineSeparator
+    for {
+      row <- 0 until fieldSizeX
+      col <- 0 until fieldSizeY
+    } {
+      if (field(row)(col).isVisible && field(row)(col).getState() == 9 || field(row)(col).flag) {
+        box = box.replaceFirst("to replace", field(row)(col).toString() + " ")
+      }
+      else {
+        box = box.replaceFirst("to replace", " " + field(row)(col).toString() + " ")
+      }
+    }
+    box + "Remaining mines: " + getRestMine
+
   }
 
   def setMinesState(row: Int, col: Int): Unit = {
@@ -167,25 +189,6 @@ case class Field(var x: Int, var y: Int, var mines: Int) extends FieldInterface 
         getCell(row, col).setState(count)
       }
     }
-  }
-
-  override def toString: String = {
-
-    val lineSeparator = "+---" * y + "+\n"
-    val line = ("|" + "to replace") * y + "|\n"
-    var box = "\n" + (lineSeparator + line) * x + lineSeparator
-    for {
-      row <- 0 until fieldSizeX
-      col <- 0 until fieldSizeY
-    } {
-      if (field(row)(col).isVisible && field(row)(col).getState() == 9 || field(row)(col).flag) {
-        box = box.replaceFirst("to replace", field(row)(col).toString() + " ")
-      }
-      else {
-        box = box.replaceFirst("to replace", " " + field(row)(col).toString() + " ")
-      }
-    }
-    box + "Remaining mines: " + getRestMine
   }
 
   implicit val cellWrites = new Writes[CellInterface] {

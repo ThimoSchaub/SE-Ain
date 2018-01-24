@@ -17,9 +17,9 @@ class TUI(controller: ControllerInterface)extends Reactor{
       case "y" => controller.redo
       case "s" => controller.solve
       case "new" => controller.createRandomField()
-      case "easy" =>controller.resize(5,3)
-      case "medium"=> controller.resize(10,20)
-      case "hard"=>controller.resize(15,40)
+      case "easy" =>controller.resize(5)
+      case "medium"=> controller.resize(10)
+      case "heavy"=>controller.resize(15)
       case "help"=>println("not implement yet")
       case _ => input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
         case row :: column :: action :: Nil => controller.set(row, column, action)

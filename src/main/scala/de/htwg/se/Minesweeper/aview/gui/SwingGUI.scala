@@ -68,12 +68,15 @@ class SwingGUI (controller: ControllerInterface) extends Frame {
 
     contents += new Menu("Options") {
       mnemonic = Key.O
-      contents += new MenuItem(Action("Easy") { controller.resize(5,3)
-        controller.createRandomField()})
-      contents += new MenuItem(Action("Medium") { controller.resize(10,20)
-        controller.createRandomField()})
-      contents += new MenuItem(Action("Heavy") {  controller.resize(15,40)
-      controller.createRandomField()})
+      contents += new MenuItem(Action("Easy") { controller.resize(5)
+        redraw
+        })
+      contents += new MenuItem(Action("Medium") { controller.resize(10)
+        redraw
+      })
+      contents += new MenuItem(Action("Heavy") {  controller.resize(15)
+      redraw
+      })
 
     }
 
