@@ -4,7 +4,7 @@ import com.google.inject.Guice
 import de.htwg.se.Minesweeper.aview.TUI
 import de.htwg.se.Minesweeper.aview.gui.SwingGUI
 import de.htwg.se.Minesweeper.controller.controllerComponent.ControllerInterface
-import de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl.Field
+
 
 object Minesweeper {
   val injector = Guice.createInjector(new MinesweeperModule)
@@ -16,9 +16,10 @@ object Minesweeper {
     do {
       input = scala.io.StdIn.readLine()
       tui.processInputLine(input)
-      gui.redraw
       gui.resizable_=(true)
       gui.resizable_=(false)
+      gui.redraw
+
     }while(input != "quit")
   }
 

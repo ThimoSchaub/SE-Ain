@@ -8,21 +8,23 @@ import io.github.todokr.Emojipolation._
 
 @RunWith(classOf[JUnitRunner])
 class CellSpec extends WordSpec with Matchers {
-  "A Cell" when { "new" should {
-    val cell = new Cell()
-    "have a state"  in {
-      cell.getState should be(-1)
+  "A Cell" when {
+    "new" should {
+      val cell = new Cell()
+      "have a state"  in {
+        cell.getState should be(-1)
+      }
+      "have a visibility" in {
+        cell.getVisibility() should be(false)
+      }
+      "have a flag status" in {
+        cell.getFlag() should be(false)
+      }
+      "have a nice String representation" in {
+        cell.toString should be(" ")
+      }
     }
-    "have a visibility" in {
-      cell.getVisibility() should be(false)
-    }
-    "have a flag status" in {
-      cell.getFlag() should be(false)
-    }
-    "have a nice String representation" in {
-      cell.toString should be(" ")
-    }
-  }}
+  }
 
   "A Cell" when { "setVisibility" should {
     val cell = new Cell()
