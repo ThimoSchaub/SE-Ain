@@ -1,12 +1,9 @@
 package de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl
 
-
 import de.htwg.se.Minesweeper.model.fieldComponent.{CellInterface, FieldInterface}
 import play.api.libs.json.{JsNumber, JsValue, Json, Writes}
 import com.google.inject.Inject
 import com.google.inject.name.Named
-
-
 
 case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")sizey:Int,@Named("DefaultMine")mines:Int) extends FieldInterface {
   var checkMine: Boolean = false
@@ -51,6 +48,7 @@ case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")si
       }
 
       case 1 => {
+        // check adjacent Cells if enough flags were placed
         if (manually && getCell(row, col).isVisible && getRemainingFlags(row, col) == 0) for (
           x <- row - 1 until row + 2;
           y <- col - 1 until col + 2
@@ -84,8 +82,6 @@ case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")si
         field(row)(col).undoCheck()
         visibleCells -= 1
       }
-
-      case _ =>
     }
     this
   }
@@ -140,6 +136,7 @@ case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")si
   }
 
   def getRestMine: Int = mine - flags
+
   def setNew:Field={
     allunVisible()
     for (
@@ -149,9 +146,9 @@ case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")si
       field(row)(col).setState(-1)
     }
     checkMine = false
-
-    return this
+    this
   }
+
   override def toString: String = {
 
     val lineSeparator = "+---" * fieldSizeY + "+\n"
@@ -170,13 +167,15 @@ case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")si
     }
     box + "Remaining mines: " + getRestMine
   }
+
   def set(row: Int, col: Int, isVisible: Boolean, state: Int, flag: Boolean): Field = {
-    var cell = getCell(row, col)
+    val cell = getCell(row, col)
     cell.setVisibility(isVisible)
     cell.setState(state)
     cell.setFlag(flag)
     this
   }
+
   def setMinesState(row: Int, col: Int): Unit = {
     val rand = scala.util.Random
     var mines_set = 0
