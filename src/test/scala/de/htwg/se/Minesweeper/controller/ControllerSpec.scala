@@ -91,6 +91,21 @@ class ControllerSpec extends WordSpec with Matchers {
         controller.redo
         controller.field.getCell(0,0).getVisibility() should be (true)
       }
+      "have some nice variables" in {
+        controller.fieldsizex should be (controller.field.getFieldSizeX)
+        controller.fieldsizey should be (controller.field.getFieldSizeY)
+        controller.blockSize should be (Math.sqrt(controller.getFieldsize).toInt)
+        controller.cell(0,0) should be (controller.field.getCell(0,0))
+        controller.getRest should be (controller.field.getRestMine)
+      }
+      "have a resize" in {
+        controller.resize(8)
+        controller.fieldsizey should be (8)
+        controller.resize(13)
+        controller.fieldsizey should be (13)
+        controller.resize(18)
+        controller.fieldsizey should be (18)
+      }
     }
   }
 }
