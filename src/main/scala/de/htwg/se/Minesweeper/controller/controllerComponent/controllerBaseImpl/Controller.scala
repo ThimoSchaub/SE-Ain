@@ -24,8 +24,6 @@ class Controller @Inject() (var field:FieldInterface) extends ControllerInterfac
   val fileIo = injector.instance[FileIOInterface]
 
   def createRandomField():Unit = {
-    println("oben")
-    println("|"+small+"|")
     field.getFieldSizeX match {
       case `small` => field = injector.instance[FieldInterface](Names.named("easy")).setNew
       case `normal` => field = injector.instance[FieldInterface](Names.named("medium")).setNew
@@ -42,11 +40,11 @@ class Controller @Inject() (var field:FieldInterface) extends ControllerInterfac
   def set(row: Int, col: Int, action: Int): Unit = {
     if(gameStatus != LOST && gameStatus != SOLVED){
       undoManager.doStep(new SetCommand(row, col, action, this))
-      if (field.checkSolved){
-        gameStatus = SOLVED
-      }
       if (field.checkMine){
         gameStatus = LOST
+      }
+      if (field.checkSolved){
+        gameStatus = SOLVED
       }
       publish(new CellChange)
     }
