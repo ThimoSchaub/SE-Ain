@@ -179,15 +179,15 @@ case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")si
   def setMinesState(row: Int, col: Int): Unit = {
     val rand = scala.util.Random
     var mines_set = 0
-    val minestate = 9
+    val mineState = 9
     while (
       mines_set < mine
     ) {
       val x = rand.nextInt(fieldSizeX)
       val y = rand.nextInt(fieldSizeY)
       val cell = getCell(x, y)
-      if (cell.getState() != minestate && (!(x == row && y == col))) {
-        cell.setState(minestate)
+      if (cell.getState() != mineState && (!(x == row && y == col))) {
+        cell.setState(mineState)
         mines_set += 1
       }
     }
@@ -195,13 +195,13 @@ case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")si
       row <- 0 until fieldSizeX;
       col <- 0 until fieldSizeY
     ) {
-      if (getCell(row, col).getState() != minestate) {
+      if (getCell(row, col).getState() != mineState) {
         var count = 0
         for (
           x <- row - 1 until row + 2;
           y <- col - 1 until col + 2
         ) {
-          if (getCell(x, y).getState() == minestate) {
+          if (getCell(x, y).getState() == mineState) {
             count += 1
           }
         }

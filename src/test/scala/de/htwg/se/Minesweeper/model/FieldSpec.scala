@@ -5,6 +5,7 @@ import org.scalatest.{Matchers, WordSpec}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import io.github.todokr.Emojipolation._
+import play.api.libs.json.{JsNumber, Json}
 
 @RunWith(classOf[JUnitRunner])
 class FieldSpec extends WordSpec with Matchers {
@@ -52,6 +53,29 @@ class FieldSpec extends WordSpec with Matchers {
         field.performAction(0,0,0,true)
         field.getCell(0,0).getVisibility() should be(false)
         field.visibleCells should be(0)
+      }
+      "check if field is solved" in {
+        field.performAction(0,0,1,true)
+        field.checkSolved should be(true)
+        field.performAction(0,0,0,true)
+        field.setCell(0,0,MINE)
+        field.checkSolved should be(true)
+        field.setCell(0,0,0)
+        field.checkSolved should be(false)
+      }
+      "have a set method" in {
+        val f = field.set(0,0,isVisible = true,0,flag = false)
+        val cell = field.getCell(0,0)
+        cell.getVisibility() should be(true)
+        cell.getState() should be(0)
+        cell.getFlag() should be(false)
+        f.toString should be("\n+---+\n|" + " 0" + ""+" |\n+---+\nRemaining mines: 0")
+        val f1 = field.set(0,0,isVisible = true,MINE,flag = false)
+        val cell1 = field.getCell(0,0)
+        cell1.getVisibility() should be(true)
+        cell1.getState() should be(MINE)
+        cell1.getFlag() should be(false)
+        f1.toString should be("\n+---+\n|"+emoji":bomb:"+" |\n+---+\nRemaining mines: 0")
       }
     }
     "bigger and with a non random mine" should {
@@ -110,23 +134,14 @@ class FieldSpec extends WordSpec with Matchers {
   }
 
   "A Field" when {
-    "set_Mines_state" should {
-      val field = new Field(1,1,1)
-      field.allVisible
-      field.getCell(0,0).setState(9)
-      "have a String reprsentaion" in {
-        field.toString should be("\n+---+\n|"+emoji":bomb:"+" |\n+---+\nRemaining mines: 1")
+    "setMinesState" should {
+      val field = new Field(2,1,1)
+      field.setMinesState(0,0)
+      "be a mine in the Cell" in {
+        field.getCell(0,0).getState() should be(1)
+        field.getCell(1,0).getState() should be(MINE)
       }
     }
   }
 
-  "A Field" when {
-    "set_Mines_state" should {
-      val field = new Field(1,2,1)
-      field.allVisible
-      "have a Cell with state -1" in {
-        field.getCell(0, 0).getState() == -1 && field.getCell(0, 1).getState() == -1 should be(true)
-      }
-    }
-  }
 }
