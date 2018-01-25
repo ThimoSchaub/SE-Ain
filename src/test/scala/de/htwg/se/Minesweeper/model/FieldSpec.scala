@@ -5,7 +5,7 @@ import org.scalatest.{Matchers, WordSpec}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import io.github.todokr.Emojipolation._
-import play.api.libs.json.{JsNumber, Json}
+import play.api.libs.json.Json
 
 @RunWith(classOf[JUnitRunner])
 class FieldSpec extends WordSpec with Matchers {
@@ -118,6 +118,13 @@ class FieldSpec extends WordSpec with Matchers {
           cell.getState() should be(-1)
           cell.getFlag() should be(false)
         }
+      }
+      "have a cellWrites" in {
+        field.cellWrites.writes(new Cell()) should be(Json.obj(
+          "isVisible" -> false,
+          "state" -> -1,
+          "flag" -> false
+        ))
       }
     }
   }
