@@ -1,5 +1,7 @@
 package de.htwg.se.Minesweeper.model.fileIoComponent.fileIoXmlImpl
 
+import java.io.File
+
 import com.google.inject.Guice
 import com.google.inject.name.Names
 import net.codingwell.scalaguice.InjectorExtensions._
@@ -13,6 +15,8 @@ class FileIO extends FileIOInterface {
 
   override def load: Option[FieldInterface] = {
     var fieldOption: Option[FieldInterface] = None
+    val sourcex = new File ("field.xml")
+    if(sourcex.exists()){
     val file = scala.xml.XML.loadFile("field.xml")
     val sizeAttr = (file \\ "field" \ "@size")
     val size = sizeAttr.text.toInt
@@ -23,25 +27,28 @@ class FileIO extends FileIOInterface {
       case 15 => fieldOption = Some(injector.instance[FieldInterface](Names.named("heavy")))
       case _ =>
     }
-    val cellNodes= (file \\ "cell")
-    fieldOption match {
-      case Some(field)=> {
-        var _field = field
-        for (cell <- cellNodes) {
-          val row: Int = (cell \ "@row").text.toInt
-          val col: Int = (cell \ "@col").text.toInt
-          var toSplit: String = cell.text
-          val splitted = toSplit.split(" ")
+      val cellNodes= (file \\ "cell")
+      fieldOption match {
+        case Some(field)=> {
+          var _field = field
+          for (cell <- cellNodes) {
+            val row: Int = (cell \ "@row").text.toInt
+            val col: Int = (cell \ "@col").text.toInt
+            var toSplit: String = cell.text
+            val splitted = toSplit.split(" ")
 
-          val isVisible: Boolean = splitted(1).toBoolean
-          val state: Int = splitted(2).toInt
-          val flag: Boolean = splitted(3).toBoolean
-          _field = _field.set(row, col, isVisible, state, flag)
+            val isVisible: Boolean = splitted(1).toBoolean
+            val state: Int = splitted(2).toInt
+            val flag: Boolean = splitted(3).toBoolean
+            _field = _field.set(row, col, isVisible, state, flag)
+          }
+          fieldOption = Some(_field)
         }
-        fieldOption = Some(_field)
+        case None =>
       }
-      case None =>
     }
+
+
     fieldOption
   }
 

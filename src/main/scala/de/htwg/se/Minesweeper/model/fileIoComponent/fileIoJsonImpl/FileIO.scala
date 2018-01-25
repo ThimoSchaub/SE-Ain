@@ -16,9 +16,6 @@ class FileIO extends FileIOInterface {
     val source: String = Source.fromFile("field.json").getLines.mkString
     val json: JsValue = Json.parse(source)
     val size = (json \ "field" \ "size").get.toString.toInt
-    println("oben")
-    println("|"+size+"|")
-    println("unten")
     val injector = Guice.createInjector(new MinesweeperModule)
     size match {
       case 5 => fieldOption = Some(injector.instance[FieldInterface](Names.named("easy")))
