@@ -1,5 +1,7 @@
 package de.htwg.se.Minesweeper.aview.gui
 
+import java.awt.Color
+
 import scala.swing._
 import javax.swing.table._
 
@@ -43,7 +45,11 @@ class CellPanel(row: Int, column: Int, controller: ControllerInterface) extends 
 
   def redraw = {
     label.text = cellText(row, column)
-    setBackground(cell)
+    if (label.text!=" "){
+      cell.background_=(Color.LIGHT_GRAY)
+    }else {
+      setBackground(cell)
+    }
     contents += cell
     repaint
   }

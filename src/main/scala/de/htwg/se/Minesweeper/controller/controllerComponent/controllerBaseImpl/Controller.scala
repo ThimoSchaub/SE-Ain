@@ -2,13 +2,13 @@ package de.htwg.se.Minesweeper.controller.controllerComponent.controllerBaseImpl
 
 
 import com.google.inject.name.Names
+import com.google.inject.name.Named
 import com.google.inject.{Guice, Inject}
 import net.codingwell.scalaguice.InjectorExtensions._
 import de.htwg.se.Minesweeper.MinesweeperModule
 import de.htwg.se.Minesweeper.controller.controllerComponent.{CellChange, ControllerInterface, FieldSizeChange, GameStatus}
 import de.htwg.se.Minesweeper.controller.controllerComponent.GameStatus.{GameStatus, _}
 import de.htwg.se.Minesweeper.model.fieldComponent.FieldInterface
-import de.htwg.se.Minesweeper.model.fieldComponent.fieldBaseImpl.Field
 import de.htwg.se.Minesweeper.model.fileIoComponent.FileIOInterface
 import de.htwg.se.Minesweeper.util.UndoManager
 
@@ -24,10 +24,12 @@ class Controller @Inject() (var field:FieldInterface) extends ControllerInterfac
   val fileIo = injector.instance[FileIOInterface]
 
   def createRandomField():Unit = {
+    println("oben")
+    println("|"+small+"|")
     field.getFieldSizeX match {
-      case 5 => field = injector.instance[FieldInterface](Names.named("easy")).setNew
-      case 10 => field = injector.instance[FieldInterface](Names.named("medium")).setNew
-      case 15 => field = injector.instance[FieldInterface](Names.named("hard")).setNew
+      case `small` => field = injector.instance[FieldInterface](Names.named("easy")).setNew
+      case `normal` => field = injector.instance[FieldInterface](Names.named("medium")).setNew
+      case `big` => field = injector.instance[FieldInterface](Names.named("hard")).setNew
       case _ =>
     }
     field.visibleCells = 0
@@ -72,14 +74,15 @@ class Controller @Inject() (var field:FieldInterface) extends ControllerInterfac
     fieldOption match {
       case None => {
         field.getFieldSizeX match {
-          case 5 => field = injector.instance[FieldInterface](Names.named("easy")).setNew
-          case 10 => field = injector.instance[FieldInterface](Names.named("medium")).setNew
-          case 15 => field = injector.instance[FieldInterface](Names.named("hard")).setNew
+          case `small` => field = injector.instance[FieldInterface](Names.named("easy")).setNew
+          case `normal` => field = injector.instance[FieldInterface](Names.named("medium")).setNew
+          case `big` => field = injector.instance[FieldInterface](Names.named("hard")).setNew
           case _ =>
         }
         gameStatus = COULDNOTLOAD
       }
       case Some(_field) => {
+        resize(_field.getFieldSizeX)
         field = _field
         gameStatus = LOADED
       }
@@ -117,12 +120,11 @@ class Controller @Inject() (var field:FieldInterface) extends ControllerInterfac
 
   override def resize(size: Int): Unit = {
     size match {
-      case 5 => field = injector.instance[FieldInterface](Names.named("easy")).setNew
-      case 10 => field = injector.instance[FieldInterface](Names.named("medium")).setNew
-      case 15 => field = injector.instance[FieldInterface](Names.named("hard")).setNew
-      case  _=>
+      case `small` => field = injector.instance[FieldInterface](Names.named("easy")).setNew
+      case `normal` => field = injector.instance[FieldInterface](Names.named("medium")).setNew
+      case `big` => field = injector.instance[FieldInterface](Names.named("hard")).setNew
     }
-    gameStatus = NEW
+    gameStatus = RESIZED
     publish(new FieldSizeChange(size))
   }
 }
