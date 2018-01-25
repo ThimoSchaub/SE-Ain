@@ -40,11 +40,12 @@ class Controller @Inject() (var field:FieldInterface) extends ControllerInterfac
   def set(row: Int, col: Int, action: Int): Unit = {
     if(gameStatus != LOST && gameStatus != SOLVED){
       undoManager.doStep(new SetCommand(row, col, action, this))
-      if (field.checkMine){
-        gameStatus = LOST
-      }
+
       if (field.checkSolved){
         gameStatus = SOLVED
+      }
+      if (field.checkMine){
+        gameStatus = LOST
       }
       publish(new CellChange)
     }
