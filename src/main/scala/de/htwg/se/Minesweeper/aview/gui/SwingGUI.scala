@@ -87,7 +87,7 @@ class SwingGUI (controller: ControllerInterface) extends Frame{
       }
         redraw
       })
-      contents += new MenuItem(Action("Heavy") { if(controller.fieldsizex == controller.big){
+      contents += new MenuItem(Action("Hard") { if(controller.fieldsizex == controller.big){
         controller.createRandomField()
       }else {
         controller.resize(controller.big)

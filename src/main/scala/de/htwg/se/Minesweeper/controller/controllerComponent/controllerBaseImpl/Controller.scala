@@ -71,6 +71,11 @@ class Controller @Inject() (var field:FieldInterface) extends ControllerInterfac
   def load: Unit = {
     val fieldOption = fileIo.load
     fieldOption match {
+      case Some(_field) => {
+        resize(_field.getFieldSizeX)
+        field = _field
+        gameStatus = LOADED
+      }
       case None => {
         field.getFieldSizeX match {
           case `small` => field = injector.instance[FieldInterface](Names.named("easy")).setNew
@@ -79,11 +84,6 @@ class Controller @Inject() (var field:FieldInterface) extends ControllerInterfac
           case _ =>
         }
         gameStatus = COULDNOTLOAD
-      }
-      case Some(_field) => {
-        resize(_field.getFieldSizeX)
-        field = _field
-        gameStatus = LOADED
       }
     }
     publish(new CellChange)
