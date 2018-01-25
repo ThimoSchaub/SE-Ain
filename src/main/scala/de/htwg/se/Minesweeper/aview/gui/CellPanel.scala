@@ -12,8 +12,8 @@ import scala.swing.event._
 
 class CellPanel(row: Int, column: Int, controller: ControllerInterface) extends FlowPanel {
 
-  val cellColor = new Color(224, 224, 255)
-
+  val cellColor = new Color(210, 210, 210)
+val viewed = new Color(125,125,125)
   def myCell = controller.cell(row, column)
 
   def cellText(row: Int, col: Int) =  controller.cell(row, column).toString
@@ -46,7 +46,7 @@ class CellPanel(row: Int, column: Int, controller: ControllerInterface) extends 
   def redraw = {
     label.text = cellText(row, column)
     if (label.text!=" "){
-      cell.background_=(Color.LIGHT_GRAY)
+      cell.background_=(viewed)
     }else {
       setBackground(cell)
     }
