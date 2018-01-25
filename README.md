@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/ThimoSchaub/SE-Ain.svg?branch=master)](https://travis-ci.org/ThimoSchaub/SE-Ain)
-[![Coverage Status](https://coveralls.io/repos/github/ThimoSchaub/SE-Ain/badge.svg?branch=master)](https://coveralls.io/github/ThimoSchaub/SE-Ain?branch=master) 
+[![Build Status](https://travis-ci.org/ThimoSchaub/SE-Ain.png?branch=master)](https://travis-ci.org/ThimoSchaub/SE-Ain)
+[![Coverage Status](https://coveralls.io/repos/github/ThimoSchaub/SE-Ain/badge.png?branch=master)](https://coveralls.io/github/ThimoSchaub/SE-Ain?branch=master) 
 
 
 =========================
