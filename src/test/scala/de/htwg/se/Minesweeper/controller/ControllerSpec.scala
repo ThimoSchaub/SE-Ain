@@ -82,6 +82,15 @@ class ControllerSpec extends WordSpec with Matchers {
       "have a representation fopr a Statusmessage" in {
         controller.statusText should be ("File could not be loaded. Sorry :(")
       }
+      "have a undo and a redo" in {
+        controller.field = new Field(1,1,0)
+        controller.set(0,0,1)
+        controller.field.getCell(0,0).getVisibility() should be (true)
+        controller.undo
+        controller.field.getCell(0,0).getVisibility() should be (false)
+        controller.redo
+        controller.field.getCell(0,0).getVisibility() should be (true)
+      }
     }
   }
 }
