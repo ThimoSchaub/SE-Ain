@@ -29,16 +29,11 @@ class TUI(controller: ControllerInterface)extends Reactor{
   }
 
   reactions+={
-    case sizeevent:FieldSizeChange => // printTui
+    case sizeevent:FieldSizeChange =>
       println(controller.fieldToString)
       println(controller.statusText)
-    case cellevent:CellChange => // printTui
+    case cellevent:CellChange =>
       println(controller.fieldToString)
       println(controller.statusText)
   }
-
-//  def printTui: Unit = {
-//    logger.info(controller.fieldToString)
-//    logger.info(GameStatus.message(controller.gameStatus))
-//  }
 }
