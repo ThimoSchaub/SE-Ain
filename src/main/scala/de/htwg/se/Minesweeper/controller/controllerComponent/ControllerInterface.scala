@@ -1,4 +1,6 @@
 package de.htwg.se.Minesweeper.controller.controllerComponent
+import com.google.inject.Inject
+import com.google.inject.name.Named
 import de.htwg.se.Minesweeper.controller.controllerComponent.GameStatus.GameStatus
 import de.htwg.se.Minesweeper.model.fieldComponent.{CellInterface, FieldInterface}
 
@@ -20,6 +22,9 @@ trait ControllerInterface extends Publisher{
   def resize(size:Int):Unit
   def save: Unit
   def load: Unit
+  val small:Int = 8
+  val normal:Int = 13
+  val big:Int = 18
 }
 
 import scala.swing.event.Event

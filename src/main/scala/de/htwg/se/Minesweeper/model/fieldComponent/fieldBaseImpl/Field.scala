@@ -133,7 +133,10 @@ case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")si
       col <- 0 until fieldSizeY
     ) {
       field(row)(col).setVisibility(false)
+      field(row)(col).setFlag(false)
     }
+    visibleCells = 0
+    flags = 0
   }
 
   def getRestMine: Int = mine - flags
@@ -143,12 +146,10 @@ case class Field @Inject()(@Named("DefaultSize")size:Int,@Named("DefaultSize")si
       row <- 0 until fieldSizeX;
       col <- 0 until fieldSizeY
     ) {
-      field(row)(col).setFlag(false)
       field(row)(col).setState(-1)
     }
-    setMinesState(0,0)
     checkMine = false
-    flags = 0
+
     return this
   }
   override def toString: String = {
