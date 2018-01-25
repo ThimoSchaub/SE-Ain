@@ -16,7 +16,10 @@ class CellPanel(row: Int, column: Int, controller: ControllerInterface) extends 
 val viewed = new Color(125,125,125)
   def myCell = controller.cell(row, column)
 
-  def cellText(row: Int, col: Int) =  controller.cell(row, column).toString
+  def cellText(row: Int, col: Int) =  {
+    if (controller.cell(row, column).toString.equals("0")) "  "
+    else controller.cell(row, column).toString
+  }
 
   val label =
     new Label {
