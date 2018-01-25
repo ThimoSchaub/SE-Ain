@@ -13,6 +13,8 @@ import scala.xml.PrettyPrinter
 
 class FileIO extends FileIOInterface {
 
+
+
   override def load: Option[FieldInterface] = {
     var fieldOption: Option[FieldInterface] = None
     val sourcex = new File ("field.xml")
@@ -22,9 +24,9 @@ class FileIO extends FileIOInterface {
     val size = sizeAttr.text.toInt
     val injector = Guice.createInjector(new MinesweeperModule)
     size match {
-      case 5 => fieldOption = Some(injector.instance[FieldInterface](Names.named("easy")))
-      case 10 => fieldOption = Some(injector.instance[FieldInterface](Names.named("medium")))
-      case 15 => fieldOption = Some(injector.instance[FieldInterface](Names.named("heavy")))
+      case 8 => fieldOption = Some(injector.instance[FieldInterface](Names.named("easy")))
+      case 13 => fieldOption = Some(injector.instance[FieldInterface](Names.named("medium")))
+      case 18 => fieldOption = Some(injector.instance[FieldInterface](Names.named("hard")))
       case _ =>
     }
       val cellNodes= (file \\ "cell")

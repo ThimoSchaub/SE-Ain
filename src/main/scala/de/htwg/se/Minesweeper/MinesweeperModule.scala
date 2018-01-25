@@ -27,7 +27,7 @@ class MinesweeperModule extends AbstractModule with ScalaModule {
     bind[FieldInterface].annotatedWithName("medium").toInstance(new Field(normal,normal,27))
     bind[FieldInterface].annotatedWithName("hard").toInstance(new Field(big,big,68))
 
-    bind[FileIOInterface].to[fileIoJsonImpl.FileIO]
+    bind[FileIOInterface].to[fileIoXmlImpl.FileIO]
 
   }
 }

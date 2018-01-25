@@ -3,9 +3,9 @@ package de.htwg.se.Minesweeper.model.fileIoComponent.fileIoJsonImpl
 import com.google.inject.Guice
 import com.google.inject.name.Names
 import net.codingwell.scalaguice.InjectorExtensions._
-import de.htwg.se.Minesweeper.MinesweeperModule
-import de.htwg.se.Minesweeper.model.fieldComponent.{CellInterface, FieldInterface}
+import de.htwg.se.Minesweeper.model.fieldComponent.{FieldInterface}
 import de.htwg.se.Minesweeper.model.fileIoComponent.FileIOInterface
+import de.htwg.se.Minesweeper.MinesweeperModule
 import play.api.libs.json._
 import scala.io.Source
 
@@ -18,9 +18,9 @@ class FileIO extends FileIOInterface {
     val size = (json \ "field" \ "size").get.toString.toInt
     val injector = Guice.createInjector(new MinesweeperModule)
     size match {
-      case 5 => fieldOption = Some(injector.instance[FieldInterface](Names.named("easy")))
-      case 10 => fieldOption = Some(injector.instance[FieldInterface](Names.named("medium")))
-      case 15 => fieldOption = Some(injector.instance[FieldInterface](Names.named("heavy")))
+      case 8 => fieldOption = Some(injector.instance[FieldInterface](Names.named("easy")))
+      case 13 => fieldOption = Some(injector.instance[FieldInterface](Names.named("medium")))
+      case 18 => fieldOption = Some(injector.instance[FieldInterface](Names.named("hard")))
       case _ =>
     }
     fieldOption match {

@@ -65,6 +65,7 @@ class ControllerSpec extends WordSpec with Matchers {
         val sourcex = new File ("field.xml")
         controller.save
         val fie = controller.field
+        controller.field = controller.field.setNew
         controller.load
         fie should be (controller.field)
 

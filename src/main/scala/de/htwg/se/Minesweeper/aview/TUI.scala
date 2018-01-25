@@ -21,6 +21,8 @@ class TUI(controller: ControllerInterface)extends Reactor{
       case "medium"=> controller.resize(10)
       case "heavy"=>controller.resize(15)
       case "help"=>println("not implement yet")
+      case "save"=>controller.save
+      case "load"=>controller.load
       case _ => input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
         case row :: column :: action :: Nil => controller.set(row, column, action)
         case _ =>
